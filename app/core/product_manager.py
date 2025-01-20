@@ -89,9 +89,11 @@ class ProductManager:
         """Uloží obrázek produktu a vrátí kompletní URL"""
         try:
             print(f"DEBUG: Začátek ukládání obrázku pro farmu {farm_id}, SKU {sku}")
+            print(f"DEBUG: Aktuální cesta: {os.path.abspath(__file__)}")
             
             # Načtení JSON souboru
             json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            print(f"DEBUG: Cesta k JSON: {json_path}")
             
             if not os.path.exists(json_path):
                 print(f"DEBUG: JSON soubor neexistuje: {json_path}")
@@ -128,13 +130,9 @@ class ProductManager:
                         print(f"DEBUG: Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
-                    # Detekce prostředí podle cesty
-                    if '/var/www/supplo.ai' in os.path.abspath(__file__):
-                        base_url = "http://161.35.70.99"
-                        print(f"DEBUG: Detekováno produkční prostředí, base_url: {base_url}")
-                    else:
-                        base_url = "http://127.0.0.1:5001"
-                        print(f"DEBUG: Detekováno lokální prostředí, base_url: {base_url}")
+                    # VŽDY použít produkční URL pro ukládání do JSONu
+                    base_url = "http://161.35.70.99"
+                    print(f"DEBUG: Použita produkční URL: {base_url}")
                         
                     image_url = f"{base_url}/products/{farm_id}_images/{filename}"
                     print(f"DEBUG: Vytvořena URL obrázku: {image_url}")

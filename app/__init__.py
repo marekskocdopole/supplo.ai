@@ -138,7 +138,7 @@ def create_app(config_class=Config):
     @app.route('/products/<path:farm_id>_images/<filename>')
     def serve_farm_image(farm_id, filename):
         """Servíruje obrázky z adresáře farmy"""
-        images_path = os.path.join(os.path.dirname(__file__), 'data', 'farms', farm_id, f'{farm_id}_images')
+        images_path = os.path.join(app.root_path, 'data', 'farms', farm_id, f'{farm_id}_images')
         return send_from_directory(images_path, filename)
 
     app.logger.info('Aplikace byla úspěšně inicializována')

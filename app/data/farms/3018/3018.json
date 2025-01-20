@@ -65,7 +65,7 @@
       "Weight": "1",
       "Short Description": "Měkký tučný tvaroh z BIO mléka s minimálně 25 % sušiny a 35 % tuku v sušině je skvělým zdrojem bílkovin a vápníku pro zdravou stravu.",
       "Description": "<p>Tvaroh měkký tučný z Farmy Struhy se vyznačuje vysokým obsahem sušiny (min. 25 %) a tuku (min. 35 %), což mu dodává bohatou a výživnou strukturu. Tento produkt je vyroben z BIO mléka, které je pasterováno a obohaceno o mlékárenské kultury a syřidlo. Tvaroh je ideální volbou pro přípravu různých pokrmů, od dezertů po slané náplně, a vyniká svou jemností a přirozenou chutí.</p><p><strong>O původu</strong></p><p>Farma Struhy, založená rodinou Kojetínů, se nachází v malebné krajině jižních Čech. Od svého vzniku v roce 2010, kdy manželé Kojetínovi začali chovat 15 jalovic, prošla farma mnoha transformacemi a dnes hospodaří na 250 hektarech. Díky ekologickému režimu a poctivé výrobě se tvaroh z Farmy Struhy stal vyhledávaným produktem nejen mezi místními obyvateli, ale také v prestižních pražských restauracích, které oceňují kvalitu a tradiční přístup rodiny k zemědělství.</p><p><strong>Tipy do kuchyně</strong></p><p>Tvaroh měkký tučný se často používá v kuchyni pro přípravu různých pokrmů, jako jsou tvarohové knedlíky, pomazánky nebo dezerty jako tvarohové koláče. Neobvyklým tipem na jeho využití je příprava tvarohových palačinek, které se skvěle hodí jako zdravá snídaně nebo lehký dezert. Stačí smíchat tvaroh s vejci, trochou mouky a cukru, a na pánvi připravit lahodné palačinky, které poté můžete podávat s čerstvým ovocem nebo jogurtem.</p>",
-      "mirakl_image_1": "3018_images/FA_3018_0001.jpg",
+      "mirakl_image_1": "http://161.35.70.99/products/3018_images/FA_3018_0001.jpg",
       "Content Show Text": "",
       "Content Text": "",
       "Priority sortin position": "",
@@ -110,7 +110,8 @@
       "Koncové datum slevy": "",
       "Expediční lhůta (ve dnech)": "",
       "Aktualizovat/Odstranit": "UPDATE",
-      "is_confirmed": true
+      "is_confirmed": true,
+      "image_path": "http://161.35.70.99/products/3018_images/FA_3018_0001.jpg"
     },
     {
       "Category": "Farma - potraviny od farmářů/Mléčné a chlazené/Tvarohy a pomázanky/Kravské",
@@ -120,7 +121,7 @@
       "Weight": "5",
       "Short Description": "Tvaroh měkký tučný z BIO mléka obsahuje min. 25 % sušiny a 35 % tuku, ideální pro přípravu dezertů či pomazánek. Obsahuje probiotické kultury pro zdraví.",
       "Description": "<p>Tvaroh měkký tučný z farmy Struhy je vyroben z BIO mléka, které podstupuje pasteraci, a obsahuje mlékárenské kultury a syřidlo. Tento produkt se vyznačuje minimální sušinou 25 % a tukem v sušině dosahujícím minimálně 35 %. Tvaroh má hladkou strukturu a je ideální pro přípravu různých pokrmů, ať už se jedná o sladké nebo slané varianty. Díky svým nutričním hodnotám je tvaroh bohatým zdrojem bílkovin, což z něj činí výbornou součást vyvážené stravy.</p><p><strong>O původu</strong></p><p>Tvaroh pochází z Farmy Struhy, která se nachází v malebné krajině jižních Čech. Rodina Kojetínů, jejíž tradice hospodaření sahá až do roku 2010, začala s jednou krávou a dnes hospodaří na 250 hektarech se 150 kusy skotu. Farma se pyšní ekologickým režimem, ve kterém produkuje všechny své mléčné výrobky bez zbytečných přídatných látek. Díky poctivé ruční výrobě a dodržování tradičních receptur si farma získala oblibu nejen mezi místními zákazníky, ale také v prestižních pražských restauracích.</p><p><strong>Tipy do kuchyně</strong></p><p>Tvaroh měkký tučný lze běžně využít na přípravu pomazánek, dezertů či jako přísadu do těstovin a omáček. Neobvyklým tipem pro jeho použití je vytvořit tvarohové gnocchi, které se podávají s máslovou omáčkou a parmazánem. Tento netradiční pokrm jistě potěší milovníky italské kuchyně a přidá originální prvek do běžného jídelníčku.</p>",
-      "mirakl_image_1": "3018_images/FA_3018_0002.jpg",
+      "mirakl_image_1": "http://127.0.0.1:5001/products/3018_images/FA_3018_0002.jpg",
       "Content Show Text": "",
       "Content Text": "",
       "Priority sortin position": "",
@@ -165,7 +166,8 @@
       "Koncové datum slevy": "",
       "Expediční lhůta (ve dnech)": "",
       "Aktualizovat/Odstranit": "UPDATE",
-      "is_confirmed": true
+      "is_confirmed": true,
+      "image_path": "http://127.0.0.1:5001/products/3018_images/FA_3018_0002.jpg"
     },
     {
       "Category": "Farma - potraviny od farmářů/Mléčné a chlazené/Tvarohy a pomázanky/Kravské",
@@ -175,7 +177,7 @@
       "Weight": "10",
       "Short Description": "Měkký tučný tvaroh z BIO mléka obsahuje min. 25 % sušiny a 35 % tuku, ideální pro zdravé dezerty. Obsahuje probiotické kultury podporující trávení.",
       "Description": "<p>Tvaroh měkký tučný je výrobek vyrobený z BIO mléka, které bylo pasterováno a obohaceno o speciální mlékárenské kultury a syřidlo. Tento tvaroh se vyznačuje minimálním obsahem sušiny 25 % a minimálním obsahem tuku v sušině 35 %. Díky své konzistenci a nutričním hodnotám je ideálním základem pro různé pokrmy, a to jak sladké, tak slané. Obsahuje cenné bílkoviny, které přispívají k udržení svalové hmoty, a je také zdrojem vápníku, potřebného pro zdravé kosti.</p><p><strong>O původu</strong></p><p>Produkty z farmy Struhy pocházejí z malebné krajiny jižních Čech, kde rodina Kojetínů s láskou a vášní hospodaří od roku 2010. Počátky jejich podnikání sahají k jedné krávě a postupně se rozrostly do úspěšné farmy, která dnes obhospodařuje 250 hektarů a chová přibližně 150 krav. Farma Struhy se specializuje na ekologické hospodaření, což znamená, že všechny produkty jsou vyráběny bez zbytečných přídatných látek. Rodina Kojetínů se snaží nejen o kvalitu svých výrobků, ale i o udržitelnost a transparentnost ve svém podnikání, což se odráží v oblibě jejich výrobků v renomovaných restauracích.</p><p><strong>Tipy do kuchyně</strong></p><p>Tvaroh měkký tučný se běžně používá do různých dezertů, jako jsou koláče nebo tvarohové nákypy. Neobvyklým tipem na jeho využití je příprava slaného tvarohového dipu. Stačí tvaroh smíchat s bylinkami, česnekem a trochou olivového oleje. Tento dip se skvěle hodí jako příloha k čerstvé zelenině nebo jako pomazánka na chléb, čímž dodá pokrmům výživovou hodnotu a příjemnou chuť.</p>",
-      "mirakl_image_1": "3018_images/FA_3018_0003.jpg",
+      "mirakl_image_1": "http://127.0.0.1:5001/products/3018_images/FA_3018_0003.jpg",
       "Content Show Text": "",
       "Content Text": "",
       "Priority sortin position": "",
@@ -220,7 +222,8 @@
       "Koncové datum slevy": "",
       "Expediční lhůta (ve dnech)": "",
       "Aktualizovat/Odstranit": "UPDATE",
-      "is_confirmed": true
+      "is_confirmed": true,
+      "image_path": "http://127.0.0.1:5001/products/3018_images/FA_3018_0003.jpg"
     },
     {
       "Category": "Farma - potraviny od farmářů/Mléčné a chlazené/Jogurty/Kravské",
