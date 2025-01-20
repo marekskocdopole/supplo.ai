@@ -118,10 +118,12 @@ class ProductManager:
                     
                     # Aktualizace cesty v JSONu
                     if current_app.config['ENV'] == 'production':
-                        full_server_path = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}_images', filename)
-                        product['mirakl_image_1'] = full_server_path
-                        return_path = full_server_path
+                        # Pro JSON ukládáme kompletní URL adresu pro přímé stažení
+                        full_url = f'http://161.35.70.99/products/{farm_id}_images/{filename}'
+                        product['mirakl_image_1'] = full_url
+                        return_path = full_url
                     else:
+                        # V lokálním prostředí ponecháme celou lokální cestu
                         full_local_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images', filename)
                         product['mirakl_image_1'] = full_local_path
                         return_path = full_local_path
