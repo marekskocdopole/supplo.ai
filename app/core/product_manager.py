@@ -120,15 +120,17 @@ class ProductManager:
                     if current_app.config['ENV'] == 'production':
                         full_server_path = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}_images', filename)
                         product['mirakl_image_1'] = full_server_path
+                        return_path = full_server_path
                     else:
                         full_local_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images', filename)
                         product['mirakl_image_1'] = full_local_path
+                        return_path = full_local_path
                     
                     # Uložení JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
                         json.dump(farm_data, f, ensure_ascii=False, indent=2)
                     
-                    return relative_path
+                    return return_path
             
             raise ValueError(f"Produkt {sku} nenalezen")
         except Exception as e:
