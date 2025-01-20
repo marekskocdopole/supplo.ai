@@ -86,3 +86,9 @@ pytest
 3. Commitněte změny (`git commit -m 'Add some AmazingFeature'`)
 4. Push do branch (`git push origin feature/AmazingFeature`)
 5. Otevřete Pull Request 
+
+# Supplo.ai
+
+Aplikace pro generování popisků produktů pomocí AI.
+
+Test automatického deploymentu. 
