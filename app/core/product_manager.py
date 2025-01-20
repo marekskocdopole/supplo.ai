@@ -98,8 +98,11 @@ class ProductManager:
                 farm_data = json.load(f)
             
             # Najít produkt
+            product_found = False
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
+                    product_found = True
+                    
                     # Vytvoření cesty pro obrázek
                     images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
@@ -107,27 +110,42 @@ class ProductManager:
                     # Uložení obrázku
                     filename = f"{sku}.jpg"
                     image_path = os.path.join(images_dir, filename)
-                    image_file.save(image_path)
+                    
+                    # Kontrola typu souboru
+                    if not image_file.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+                        raise ValueError("Nepodporovaný formát souboru. Povolené formáty jsou: JPG, PNG, GIF")
+                    
+                    # Uložení souboru
+                    try:
+                        image_file.save(image_path)
+                    except Exception as e:
+                        raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
                     # Kompletní URL pro obrázek
                     image_url = f"http://161.35.70.99/products/{farm_id}_images/{filename}"
                     
                     # Uložení KOMPLETNÍ URL do JSONu
                     product['mirakl_image_1'] = image_url
-                    product['image_path'] = image_url  # Přidáno: ukládáme kompletní URL i do image_path
+                    product['image_path'] = image_url
                     
                     # Uložení změn do JSONu
-                    with open(json_path, 'w', encoding='utf-8') as f:
-                        json.dump(farm_data, f, ensure_ascii=False, indent=2)
+                    try:
+                        with open(json_path, 'w', encoding='utf-8') as f:
+                            json.dump(farm_data, f, ensure_ascii=False, indent=2)
+                    except Exception as e:
+                        raise ValueError(f"Chyba při ukládání JSON: {str(e)}")
                     
                     print(f"DEBUG: Uložena kompletní URL do JSONu: {image_url}")
                     return image_url
             
-            raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
+            if not product_found:
+                raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
             
         except Exception as e:
             print(f"Chyba při ukládání obrázku: {str(e)}")
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
+        
+        return None
     
     def confirm_product(self, farm_id: str, sku: str) -> bool:
         """Potvrdí produkt"""

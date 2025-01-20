@@ -86,6 +86,7 @@ def regenerate_content():
         return jsonify({'error': 'Neočekávaná chyba při generování obsahu'}), 500
 
 @products_bp.route('/api/upload_image', methods=['POST'])
+@login_required
 def upload_image():
     """Nahraje obrázek produktu"""
     try:
@@ -103,15 +104,22 @@ def upload_image():
         farm_id = request.form['farm_id']
         sku = request.form['sku']
         
+        # Kontrola přístupu k farmě
+        farm = Farm.query.filter_by(farm_id=farm_id).first()
+        if not farm or farm.user_id != current_user.id:
+            return jsonify({'error': 'Nemáte přístup k této farmě'}), 403
+        
         # Uložení obrázku
-        image_path = product_manager.save_product_image(farm_id, sku, image_file)
-        
-        return jsonify({'image_path': image_path})
-        
-    except ValueError as e:
-        return jsonify({'error': str(e)}), 400
+        try:
+            image_path = product_manager.save_product_image(farm_id, sku, image_file)
+            if not image_path:
+                return jsonify({'error': 'Nepodařilo se uložit obrázek'}), 500
+            return jsonify({'image_path': image_path})
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
         
     except Exception as e:
+        current_app.logger.error(f'Chyba při nahrávání obrázku: {str(e)}', exc_info=True)
         return jsonify({'error': f'Neočekávaná chyba: {str(e)}'}), 500
 
 @products_bp.route('/api/products/confirm', methods=['POST'])
