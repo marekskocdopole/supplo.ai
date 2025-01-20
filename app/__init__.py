@@ -144,10 +144,13 @@ def create_app(config_class=Config):
     def serve_farm_image(farm_id, filename):
         """Servíruje obrázky z adresáře farmy"""
         if app.config['ENV'] == 'production':
-            images_path = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}_images')
+            # Použijeme absolutní cestu
+            images_path = f'/var/www/supplo.ai/app/data/farms/{farm_id}/{farm_id}_images'
+            app.logger.info(f'Serving image from: {images_path}/{filename}')
+            return send_from_directory(images_path, filename)
         else:
             images_path = os.path.join(os.path.dirname(__file__), 'data', 'farms', farm_id, f'{farm_id}_images')
-        return send_from_directory(images_path, filename)
+            return send_from_directory(images_path, filename)
 
     app.logger.info('Aplikace byla úspěšně inicializována')
     return app 
