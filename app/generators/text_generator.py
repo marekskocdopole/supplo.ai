@@ -25,7 +25,7 @@ class TextGenerator:
     def generate_short_description(self, product_data: Dict) -> str:
         """Generování krátkého popisu s upraveným názvem produktu."""
         # Zjednodušení názvu produktu
-        simplified_name = self.name_processor._simplify_product_name(
+        simplified_name = self.name_processor.simplify_product_name(
             product_data['name'],
             alt_name=product_data.get('alt_name', '')
         )
@@ -56,7 +56,7 @@ class TextGenerator:
     def generate_long_description(self, product_data: Dict) -> str:
         """Generování dlouhého popisu s upraveným názvem produktu."""
         # Zjednodušení názvu produktu
-        simplified_name = self.name_processor._simplify_product_name(
+        simplified_name = self.name_processor.simplify_product_name(
             product_data['name'],
             alt_name=product_data.get('alt_name', '')
         )
