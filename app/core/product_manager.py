@@ -91,10 +91,9 @@ class ProductManager:
             from flask import current_app
             current_app.logger.info(f"=== ZAČÁTEK UKLÁDÁNÍ OBRÁZKU ===")
             current_app.logger.info(f"Farm ID: {farm_id}, SKU: {sku}")
-            current_app.logger.info(f"Aktuální cesta: {os.path.abspath(__file__)}")
             
-            # Načtení JSON souboru
-            json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            # Načtení JSON souboru - použijeme absolutní cestu z app.root_path
+            json_path = os.path.join(current_app.root_path, 'data', 'farms', farm_id, f'{farm_id}.json')
             current_app.logger.info(f"Cesta k JSON: {json_path}")
             
             if not os.path.exists(json_path):
@@ -112,8 +111,8 @@ class ProductManager:
                     product_found = True
                     current_app.logger.info(f"Nalezen produkt {sku}")
                     
-                    # Vytvoření cesty pro obrázek
-                    images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
+                    # Vytvoření cesty pro obrázek - použijeme absolutní cestu z app.root_path
+                    images_dir = os.path.join(current_app.root_path, 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
                     current_app.logger.info(f"Vytvořen adresář pro obrázky: {images_dir}")
                     
@@ -135,26 +134,42 @@ class ProductManager:
                         current_app.logger.error(f"Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
-                    # Detekce prostředí podle cesty
-                    if '/var/www/supplo.ai' in os.path.abspath(__file__):
-                        base_url = "http://161.35.70.99"
-                        current_app.logger.info(f"Detekováno produkční prostředí, base_url: {base_url}")
-                    else:
-                        base_url = "http://127.0.0.1:5001"
-                        current_app.logger.info(f"Detekováno lokální prostředí, base_url: {base_url}")
+                    # VŽDY použít produkční URL pro ukládání do JSONu
+                    base_url = "http://161.35.70.99"
+                    current_app.logger.info(f"Použita produkční URL: {base_url}")
                     
-                    # Vytvoření kompletní URL pro obrázek - VŽDY použít /products/ cestu
+                    # Vytvoření kompletní URL pro obrázek
                     image_url = f"{base_url}/products/{farm_id}_images/{filename}"
                     current_app.logger.info(f"Vytvořena URL obrázku: {image_url}")
+                    
+                    # Debug výpis před aktualizací
+                    current_app.logger.info(f"Původní hodnoty v JSONu:")
+                    current_app.logger.info(f"mirakl_image_1: {product.get('mirakl_image_1')}")
+                    current_app.logger.info(f"image_path: {product.get('image_path')}")
                     
                     # Aktualizace všech polí v JSONu, která mohou obsahovat URL obrázku
                     product['mirakl_image_1'] = image_url
                     product['image_path'] = image_url
                     current_app.logger.info(f"Aktualizovány URL v produktu {sku}")
                     
+                    # Debug výpis po aktualizaci
+                    current_app.logger.info(f"Nové hodnoty v JSONu:")
+                    current_app.logger.info(f"mirakl_image_1: {product['mirakl_image_1']}")
+                    current_app.logger.info(f"image_path: {product['image_path']}")
+                    
+                    # Uložit aktualizovaná data zpět do JSON souboru
+                    with open(json_path, 'w', encoding='utf-8') as f:
+                        json.dump(farm_data, f, ensure_ascii=False, indent=2)
+                    current_app.logger.info(f"Aktualizovaná data byla uložena do JSON souboru: {json_path}")
+                    
                     # Projít všechny existující produkty a aktualizovat jejich URL
                     updated_count = 0
                     for p in farm_data.get('products', []):
+                        # Debug výpis pro každý produkt
+                        current_app.logger.info(f"Kontrola produktu {p.get('Shop SKU')}:")
+                        current_app.logger.info(f"Původní mirakl_image_1: {p.get('mirakl_image_1')}")
+                        current_app.logger.info(f"Původní image_path: {p.get('image_path')}")
+                        
                         # Kontrola mirakl_image_1
                         if 'mirakl_image_1' in p and p['mirakl_image_1'] and not p['mirakl_image_1'].startswith('http'):
                             p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
@@ -163,10 +178,15 @@ class ProductManager:
                         if 'image_path' in p and p['image_path'] and not p['image_path'].startswith('http'):
                             p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
                             updated_count += 1
+                            
+                        current_app.logger.info(f"Nové mirakl_image_1: {p.get('mirakl_image_1')}")
+                        current_app.logger.info(f"Nové image_path: {p.get('image_path')}")
+                    
                     current_app.logger.info(f"Aktualizováno {updated_count} URL v ostatních produktech")
                     
                     # Uložení změn do JSONu
                     try:
+                        current_app.logger.info(f"Ukládám změny do JSON souboru: {json_path}")
                         with open(json_path, 'w', encoding='utf-8') as f:
                             json.dump(farm_data, f, ensure_ascii=False, indent=2)
                         current_app.logger.info(f"JSON soubor úspěšně aktualizován")
