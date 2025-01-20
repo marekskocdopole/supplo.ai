@@ -10,10 +10,7 @@ class ProductNameProcessor:
     def __init__(self):
         self._translation_cache = {}  # Cache pro překlady
         self._product_type_cache = {} # Cache pro typy produktů
-        self.client = OpenAI(
-            api_key=Config.OPENAI_API_KEY,
-            base_url="https://api.openai.com/v1"
-        )
+        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
         
     def _simplify_product_name(self, product_name: str, for_image: bool = False, alt_name: str = None) -> str:
         """
