@@ -90,36 +90,54 @@ def regenerate_content():
 def upload_image():
     """Nahraje obrázek produktu"""
     try:
+        current_app.logger.info("Začátek nahrávání obrázku")
+        
         # Kontrola parametrů
         if 'image' not in request.files:
+            current_app.logger.error("Chybí soubor obrázku v požadavku")
             return jsonify({'error': 'Chybí soubor obrázku'}), 400
             
         if 'farm_id' not in request.form:
+            current_app.logger.error("Chybí farm_id v požadavku")
             return jsonify({'error': 'Chybí ID farmy'}), 400
             
         if 'sku' not in request.form:
+            current_app.logger.error("Chybí SKU v požadavku")
             return jsonify({'error': 'Chybí SKU produktu'}), 400
             
         image_file = request.files['image']
         farm_id = request.form['farm_id']
         sku = request.form['sku']
         
+        current_app.logger.info(f"Nahrávání obrázku pro farmu {farm_id}, SKU {sku}")
+        
         # Kontrola přístupu k farmě
         farm = Farm.query.filter_by(farm_id=farm_id).first()
-        if not farm or farm.user_id != current_user.id:
+        if not farm:
+            current_app.logger.error(f"Farma {farm_id} nenalezena")
+            return jsonify({'error': 'Farma nenalezena'}), 404
+            
+        if farm.user_id != current_user.id:
+            current_app.logger.error(f"Uživatel {current_user.id} nemá přístup k farmě {farm_id}")
             return jsonify({'error': 'Nemáte přístup k této farmě'}), 403
         
         # Uložení obrázku
         try:
+            current_app.logger.info("Ukládám obrázek pomocí ProductManager")
             image_path = product_manager.save_product_image(farm_id, sku, image_file)
             if not image_path:
+                current_app.logger.error("ProductManager vrátil prázdnou cestu k obrázku")
                 return jsonify({'error': 'Nepodařilo se uložit obrázek'}), 500
+                
+            current_app.logger.info(f"Obrázek úspěšně uložen: {image_path}")
             return jsonify({'image_path': image_path})
+            
         except ValueError as e:
+            current_app.logger.error(f"Chyba při ukládání obrázku: {str(e)}")
             return jsonify({'error': str(e)}), 400
         
     except Exception as e:
-        current_app.logger.error(f'Chyba při nahrávání obrázku: {str(e)}', exc_info=True)
+        current_app.logger.error(f"Neočekávaná chyba při nahrávání obrázku: {str(e)}", exc_info=True)
         return jsonify({'error': f'Neočekávaná chyba: {str(e)}'}), 500
 
 @products_bp.route('/api/products/confirm', methods=['POST'])
