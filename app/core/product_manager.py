@@ -118,12 +118,11 @@ class ProductManager:
                     
                     # Aktualizace cesty v JSONu
                     if current_app.config['ENV'] == 'production':
-                        relative_path = os.path.join(f'{farm_id}_images', filename)
-                        absolute_url = f'http://161.35.70.99/products/{relative_path}'
-                        product['mirakl_image_1'] = absolute_url
+                        full_server_path = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}_images', filename)
+                        product['mirakl_image_1'] = full_server_path
                     else:
-                        relative_path = os.path.join(f'{farm_id}_images', filename)
-                        product['mirakl_image_1'] = relative_path
+                        full_local_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images', filename)
+                        product['mirakl_image_1'] = full_local_path
                     
                     # Uložení JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
