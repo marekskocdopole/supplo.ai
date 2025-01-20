@@ -1,0 +1,13 @@
+[Unit]
+Description=Supplo AI Flask Application
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/var/www/supplo.ai
+Environment=PATH=/var/www/supplo.ai/venv/bin
+ExecStart=/var/www/supplo.ai/venv/bin/python run.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target 
