@@ -16,7 +16,11 @@ class GenerationError(Exception):
 
 class TextGenerator:
     def __init__(self):
-        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        self.client = OpenAI(
+            api_key=Config.OPENAI_API_KEY,
+            base_url="https://api.openai.com/v1",
+            timeout=10.0
+        )
         self.name_processor = ProductNameProcessor()
         
     def generate_short_description(self, product_data: Dict) -> str:
