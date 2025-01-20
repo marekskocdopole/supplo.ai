@@ -206,6 +206,12 @@ class ProductManager:
     def export_products_csv(self, farm_id: int) -> List[Dict]:
         """Exportuje produkty do formátu pro CSV"""
         products = self.get_farm_products(farm_id, include_inactive=True)
+        
+        # Získání farm_id (string) z databáze
+        farm = Farm.query.get(farm_id)
+        if not farm:
+            return []
+            
         return [
             {
                 'Shop SKU': p.sku,
@@ -215,6 +221,7 @@ class ProductManager:
                 'Farm Description': p.metadata_dict.get('farm_description', ''),
                 'Short Description': p.short_description or '',
                 'Long Description': p.long_description or '',
+                'mirakl_image_1': f"http://161.35.70.99/products/{farm.farm_id}_images/{p.sku}.jpg" if p.image_path else '',
                 'Price': p.price or '',
                 'Unit': p.unit or '',
                 'Stock': p.stock or 0,
