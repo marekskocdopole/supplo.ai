@@ -20,6 +20,18 @@ jobs:
           script: |
             cd /var/www/supplo.ai
             git pull origin main
+            
+            # Vytvoření potřebných adresářů
+            mkdir -p app/static/uploads
+            mkdir -p app/data
+            chmod -R 755 app/static/uploads
+            chmod -R 755 app/data
+            
+            # Nastavení prostředí
             source venv/bin/activate
             pip install -r requirements.txt
+            export FLASK_ENV=production
+            export PORT=80
+            
+            # Restart služby
             systemctl restart supplo 

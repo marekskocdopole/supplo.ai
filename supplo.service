@@ -6,6 +6,9 @@ After=network.target
 User=root
 WorkingDirectory=/var/www/supplo.ai
 Environment=PATH=/var/www/supplo.ai/venv/bin
+Environment=FLASK_ENV=production
+Environment=PORT=80
+Environment=PYTHONPATH=/var/www/supplo.ai
 ExecStart=/var/www/supplo.ai/venv/bin/python run.py
 Restart=always
 
