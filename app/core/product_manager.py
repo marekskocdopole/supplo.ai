@@ -130,21 +130,26 @@ class ProductManager:
                         print(f"DEBUG: Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
-                    # Detekce prostředí podle cesty
-                    if '/var/www/supplo.ai' in os.path.abspath(__file__):
-                        base_url = "http://161.35.70.99"
-                        print(f"DEBUG: Detekováno produkční prostředí, base_url: {base_url}")
-                        image_url = f"{base_url}/products/{farm_id}_images/{filename}"
-                    else:
-                        base_url = "http://127.0.0.1:5001"
-                        print(f"DEBUG: Detekováno lokální prostředí, base_url: {base_url}")
-                        image_url = f"{base_url}/products/{farm_id}_images/{filename}"
-                        
+                    # VŽDY použít produkční URL pro ukládání do JSONu
+                    base_url = "http://161.35.70.99"
+                    print(f"DEBUG: Použita produkční URL: {base_url}")
+                    
+                    # Vytvoření kompletní URL pro obrázek
+                    image_url = f"{base_url}/products/{farm_id}_images/{filename}"
                     print(f"DEBUG: Vytvořena URL obrázku: {image_url}")
                     
-                    # Uložení KOMPLETNÍ URL do JSONu
+                    # Aktualizace všech polí v JSONu, která mohou obsahovat URL obrázku
                     product['mirakl_image_1'] = image_url
                     product['image_path'] = image_url
+                    
+                    # Projít všechny existující produkty a aktualizovat jejich URL
+                    for p in farm_data.get('products', []):
+                        # Kontrola mirakl_image_1
+                        if 'mirakl_image_1' in p and p['mirakl_image_1'] and not p['mirakl_image_1'].startswith('http'):
+                            p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
+                        # Kontrola image_path
+                        if 'image_path' in p and p['image_path'] and not p['image_path'].startswith('http'):
+                            p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
                     
                     # Uložení změn do JSONu
                     try:
