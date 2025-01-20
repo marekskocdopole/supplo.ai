@@ -20,12 +20,12 @@ class TextGenerator:
             api_key=Config.OPENAI_API_KEY,
             base_url="https://api.openai.com/v1"
         )
-        self.name_processor = ProductNameProcessor()
         
     def generate_short_description(self, product_data: Dict) -> str:
         """Generování krátkého popisu s upraveným názvem produktu."""
         # Zjednodušení názvu produktu
-        simplified_name = self.name_processor._simplify_product_name(
+        name_processor = ProductNameProcessor()
+        simplified_name = name_processor._simplify_product_name(
             product_data['name'],
             alt_name=product_data.get('alt_name', '')
         )
@@ -56,7 +56,8 @@ class TextGenerator:
     def generate_long_description(self, product_data: Dict) -> str:
         """Generování dlouhého popisu s upraveným názvem produktu."""
         # Zjednodušení názvu produktu
-        simplified_name = self.name_processor.simplify_product_name(
+        name_processor = ProductNameProcessor()
+        simplified_name = name_processor._simplify_product_name(
             product_data['name'],
             alt_name=product_data.get('alt_name', '')
         )
