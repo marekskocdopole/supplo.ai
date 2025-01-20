@@ -1,5 +1,6 @@
 import re
 import logging
+import httpx
 from typing import Dict, Optional
 from openai import OpenAI
 from app.config.config import Config
@@ -10,7 +11,11 @@ class ProductNameProcessor:
     def __init__(self):
         self._translation_cache = {}  # Cache pro překlady
         self._product_type_cache = {} # Cache pro typy produktů
-        self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        http_client = httpx.Client()
+        self.client = OpenAI(
+            api_key=Config.OPENAI_API_KEY,
+            http_client=http_client
+        )
         
     def _simplify_product_name(self, product_name: str, for_image: bool = False, alt_name: str = None) -> str:
         """

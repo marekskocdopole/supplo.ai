@@ -1,6 +1,7 @@
 import re
 import time
 import logging
+import httpx
 from typing import Dict
 from openai import OpenAI
 from app.config.config import Config
@@ -16,8 +17,10 @@ class GenerationError(Exception):
 
 class TextGenerator:
     def __init__(self):
+        http_client = httpx.Client()
         self.client = OpenAI(
-            api_key=Config.OPENAI_API_KEY
+            api_key=Config.OPENAI_API_KEY,
+            http_client=http_client
         )
         self.name_processor = ProductNameProcessor()
         
@@ -140,7 +143,7 @@ class TextGenerator:
     
     def _generate_with_gpt4(self, prompt: str, max_tokens: int) -> str:
         response = self.client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {
                     "role": "system", 
