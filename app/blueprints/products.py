@@ -87,33 +87,32 @@ def regenerate_content():
 
 @products_bp.route('/api/upload_image', methods=['POST'])
 def upload_image():
-    """API endpoint pro nahrání obrázku produktu"""
+    """Nahraje obrázek produktu"""
     try:
+        # Kontrola parametrů
         if 'image' not in request.files:
-            return jsonify({'error': 'Nebyl nahrán žádný soubor'}), 400
-        
-        image = request.files['image']
-        farm_id = request.form.get('farm_id')
-        sku = request.form.get('sku')
-        
-        if not image or not farm_id or not sku:
-            return jsonify({'error': 'Chybí povinné parametry'}), 400
-        
-        product_manager = ProductManager()
-        image_path = product_manager.save_product_image(farm_id, sku, image)
-        
-        if current_app.config['ENV'] == 'production':
-            # V produkci vracíme plnou URL s celou cestou
-            filename = os.path.basename(image_path)
-            full_url = f'http://161.35.70.99/data/farms/{farm_id}/{farm_id}_images/{filename}'
-            return jsonify({'image_path': full_url})
-        else:
-            # Lokálně vracíme relativní cestu
-            return jsonify({'image_path': image_path})
+            return jsonify({'error': 'Chybí soubor obrázku'}), 400
             
+        if 'farm_id' not in request.form:
+            return jsonify({'error': 'Chybí ID farmy'}), 400
+            
+        if 'sku' not in request.form:
+            return jsonify({'error': 'Chybí SKU produktu'}), 400
+            
+        image_file = request.files['image']
+        farm_id = request.form['farm_id']
+        sku = request.form['sku']
+        
+        # Uložení obrázku
+        image_path = product_manager.save_product_image(farm_id, sku, image_file)
+        
+        return jsonify({'image_path': image_path})
+        
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+        
     except Exception as e:
-        current_app.logger.error(f'Chyba při nahrávání obrázku: {str(e)}')
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'Neočekávaná chyba: {str(e)}'}), 500
 
 @products_bp.route('/api/products/confirm', methods=['POST'])
 def confirm_product():

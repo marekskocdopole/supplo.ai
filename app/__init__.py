@@ -136,21 +136,10 @@ def create_app(config_class=Config):
         return render_template('errors/500.html'), 500
 
     @app.route('/products/<path:farm_id>_images/<filename>')
-    def legacy_serve_farm_image(farm_id, filename):
-        """Přesměruje staré URL na nové"""
-        return redirect(f'/data/farms/{farm_id}/{farm_id}_images/{filename}')
-
-    @app.route('/data/farms/<path:farm_id>/<path:farm_id>_images/<filename>')
     def serve_farm_image(farm_id, filename):
         """Servíruje obrázky z adresáře farmy"""
-        if app.config['ENV'] == 'production':
-            # Použijeme absolutní cestu
-            images_path = f'/var/www/supplo.ai/app/data/farms/{farm_id}/{farm_id}_images'
-            app.logger.info(f'Serving image from: {images_path}/{filename}')
-            return send_from_directory(images_path, filename)
-        else:
-            images_path = os.path.join(os.path.dirname(__file__), 'data', 'farms', farm_id, f'{farm_id}_images')
-            return send_from_directory(images_path, filename)
+        images_path = os.path.join(os.path.dirname(__file__), 'data', 'farms', farm_id, f'{farm_id}_images')
+        return send_from_directory(images_path, filename)
 
     app.logger.info('Aplikace byla úspěšně inicializována')
     return app 

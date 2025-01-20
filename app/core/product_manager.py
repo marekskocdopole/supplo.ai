@@ -6,7 +6,6 @@ from app import db
 from app.core.models import Product, Farm
 from app.config.config import Config
 from app.generators.text_generator import TextGenerator, GenerationError
-from flask import current_app
 
 class ProductManager:
     def __init__(self):
@@ -90,11 +89,7 @@ class ProductManager:
         """Uloží obrázek produktu"""
         try:
             # Načtení JSON souboru
-            if current_app.config['ENV'] == 'production':
-                json_path = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}.json')
-            else:
-                json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
-            
+            json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
             with open(json_path, 'r', encoding='utf-8') as f:
                 farm_data = json.load(f)
             
@@ -102,11 +97,7 @@ class ProductManager:
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
                     # Vytvoření cesty pro obrázek
-                    if current_app.config['ENV'] == 'production':
-                        images_dir = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}_images')
-                    else:
-                        images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
-                    
+                    images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
                     
                     # Uložení obrázku s názvem shop_sku.jpg
@@ -117,24 +108,23 @@ class ProductManager:
                     image_file.save(image_path)
                     
                     # Aktualizace cesty v JSONu
-                    if current_app.config['ENV'] == 'production':
-                        # Pro JSON ukládáme kompletní URL adresu pro přímé stažení
-                        full_url = f'http://161.35.70.99/data/farms/{farm_id}/{farm_id}_images/{filename}'
-                        product['mirakl_image_1'] = full_url
-                        return_path = full_url
+                    relative_path = os.path.join(f'{farm_id}_images', filename)
+                    
+                    # V produkci přidáme kompletní URL
+                    if os.environ.get('FLASK_ENV') == 'production':
+                        image_url = f"http://161.35.70.99/products/{relative_path}"
+                        product['mirakl_image_1'] = image_url
                     else:
-                        # V lokálním prostředí ponecháme celou lokální cestu
-                        full_local_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images', filename)
-                        product['mirakl_image_1'] = full_local_path
-                        return_path = full_local_path
+                        product['mirakl_image_1'] = relative_path
                     
                     # Uložení JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
                         json.dump(farm_data, f, ensure_ascii=False, indent=2)
                     
-                    return return_path
+                    return relative_path
             
             raise ValueError(f"Produkt {sku} nenalezen")
+            
         except Exception as e:
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
     
