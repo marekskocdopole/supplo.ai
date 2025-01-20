@@ -39,10 +39,14 @@ class Config:
     TEMPLATES_AUTO_RELOAD = True
     
 class DevelopmentConfig(Config):
+    ENV = 'development'
     DEBUG = True
+    TEMPLATES_AUTO_RELOAD = True
     
 class ProductionConfig(Config):
+    ENV = 'production'
     DEBUG = False
+    TEMPLATES_AUTO_RELOAD = False
     # V produkci by měl být nastaven silný SECRET_KEY
     # SSL/HTTPS nastavení
     # Další produkční nastavení 
