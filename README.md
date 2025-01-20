@@ -91,4 +91,4 @@ pytest
 
 Aplikace pro generování popisků produktů pomocí AI.
 
-Test automatického deploymentu. 
+Test automatického deploymentu po opravě SSH. 
