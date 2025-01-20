@@ -55,6 +55,35 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     
+    # Konfigurace loggeru
+    import logging
+    from logging.handlers import RotatingFileHandler
+    import os
+
+    # Vytvoření adresáře pro logy
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    
+    # Konfigurace handleru pro soubor
+    file_handler = RotatingFileHandler('logs/supplo.log', maxBytes=10240, backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    file_handler.setLevel(logging.INFO)
+    
+    # Konfigurace handleru pro konzoli
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    console_handler.setLevel(logging.INFO)
+    
+    # Přidání handlerů do aplikace
+    app.logger.addHandler(file_handler)
+    app.logger.addHandler(console_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Inicializace aplikace...')
+
     # Zapnutí debug módu a watchdogu
     if app.config['ENV'] == 'development':
         app.debug = True
@@ -63,9 +92,6 @@ def create_app(config_class=Config):
         app.config['FLASK_DEBUG'] = True
         app.config['USE_RELOADER'] = True
         
-    # Nastavení logování
-    setup_logging(app)
-
     # Inicializace rozšíření
     db.init_app(app)
     migrate.init_app(app, db)
