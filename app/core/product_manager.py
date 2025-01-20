@@ -128,11 +128,13 @@ class ProductManager:
                         print(f"DEBUG: Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
-                    # Kompletní URL pro obrázek - v lokálním prostředí používáme localhost
-                    if os.environ.get('FLASK_ENV') == 'development':
-                        base_url = "http://127.0.0.1:5001"
-                    else:
+                    # Detekce prostředí podle cesty
+                    if '/var/www/supplo.ai' in os.path.abspath(__file__):
                         base_url = "http://161.35.70.99"
+                        print(f"DEBUG: Detekováno produkční prostředí, base_url: {base_url}")
+                    else:
+                        base_url = "http://127.0.0.1:5001"
+                        print(f"DEBUG: Detekováno lokální prostředí, base_url: {base_url}")
                         
                     image_url = f"{base_url}/products/{farm_id}_images/{filename}"
                     print(f"DEBUG: Vytvořena URL obrázku: {image_url}")
