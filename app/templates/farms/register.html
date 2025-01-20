@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Registrace farmy - Supplo.ai{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Registrace farmy</h2>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form id="farmRegistrationForm" action="{{ url_for('farms.register') }}" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="farm_id" class="form-label">ID farmy *</label>
+                            <input type="text" class="form-control" id="farm_id" name="farm_id" required minlength="3" maxlength="50">
+                            <div class="form-text">Unikátní identifikátor farmy</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Název farmy *</label>
+                            <input type="text" class="form-control" id="name" name="name" required minlength="3" maxlength="100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Popis farmy *</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required minlength="10" maxlength="500"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="products_csv" class="form-label">CSV soubor s produkty *</label>
+                            <input type="file" class="form-control" id="products_csv" name="products_csv" accept=".csv" required>
+                            <div class="form-text">Nahrajte CSV soubor s produkty farmy</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Zaregistrovat farmu
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Inicializace formuláře pro registraci farmy');
+    const form = document.getElementById('farmRegistrationForm');
+
+    form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            console.warn('Formulář není validní');
+            form.reportValidity();
+        } else {
+            console.log('Odesílání formuláře pro registraci farmy');
+        }
+    });
+});
+</script>
+{% endblock %} 

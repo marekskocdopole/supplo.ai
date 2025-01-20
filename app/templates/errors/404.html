@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Stránka nenalezena - Supplo.ai{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-1">404</h1>
+            <h2 class="mb-4">Stránka nenalezena</h2>
+            <p class="lead mb-4">Omlouváme se, ale požadovaná stránka neexistuje nebo byla přesunuta.</p>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                <i class="fas fa-home"></i> Zpět na hlavní stránku
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

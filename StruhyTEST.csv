@@ -1,0 +1,140 @@
+Category,Shop SKU,Name,Variant Group Code,Weight,Short Description,Description,mirakl_image_1,Content Show Text,Content Text,Priority sortin position,Farm allergens,Chov,Farm dimension depth (cm),Farm dimension height (cm),Farm dimension width (cm),Farm ingredients,Farm nutritional carbohydrates,Minimální trvanlivost,Farm nutritional energy (kJ),Farm nutritional fats,Farm nutritional proteins,Farm nutritional salt,Farm nutritional saturated fatty acids,Farm nutritional sugars,Země původu,Farm package size,Balení,Farm storage temperature,mirakl_image_2,mirakl_image_3,Farm dimensional points,Farm volume,Farm Packing Unit,Tax VAT value,SKU nabídky,ID produktu,Typ ID produktu,Popis nabídky,Interní popis nabídky,Cena nabídky,Doplňkové informace k ceně nabídky,Množství nabídky,Upozornění na minimální množství,Stav nabídky,Počáteční datum dostupnosti,Koncové datum dostupnosti,Cena po slevě,Počáteční datum slevy,Koncové datum slevy,Expediční lhůta (ve dnech),Aktualizovat/Odstranit,výše zálohy
+category,shop_sku,name,variant_group_code,weight,short_description,description,mirakl_image_1,content_show_text,content_text,priority_sorting_position,farm_allergens,farm_breeding_type,farm_dimension_depth,farm_dimension_height,farm_dimension_width,farm_ingredients,farm_nutritional_carbohydrates,farm_minimal_durability,farm_nutritional_energy,farm_nutritional_fats,farm_nutritional_proteins,farm_nutritional_salt,farm_nutritional_saturated_fatty_acids,farm_nutritional_sugars,farm_origin_country,farm_package_size,farm_packaging,farm_storage_temperature,mirakl_image_2,mirakl_image_3,farm_dimensional_points,farm_volume,farm_packing_unit,taxvat_value,sku,product-id,product-id-type,offer-description,internal-description,price,price-additional-info,quantity,min-quantity-alert,state,available-start-date,available-end-date,discount-price,discount-start-date,discount-end-date,leadtime-to-ship,update-delete,v Kč
+Farma - potraviny od farmářů/Mléčné a chlazené/Tvarohy a pomázanky/Kravské,FA_3018_0001,Bio selský tvaroh měkký tučný 1 kg,,1,,,,,,,mléko,bio zemědělství,,,,"BIO MLÉKO pasterované, mlékárenské kultury, syřidlo. Sušina min. 25 %, tuk v sušině min. 35 %.",3.5 g,7 dnů,421,4.8 g,10.8 g,0 g,3.2 g,3.5 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0001_OF,FA_3018_0001,SHOP_SKU,,,"Kč105,57",,50,,Nové,,,,,,,UPDATE,10
+Farma - potraviny od farmářů/Mléčné a chlazené/Tvarohy a pomázanky/Kravské,FA_3018_0002,Bio selský tvaroh měkký tučný 5 kg,,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek
+Regionální potravina",,,,"BIO MLÉKO pasterované, mlékárenské kultury, syřidlo. Sušina min. 25 %, tuk v sušině min. 35 %.",3.5 g,7 dnů,421,4.8 g,10.8 g,0 g,3.2 g,3.5 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0002_OF,FA_3018_0002,SHOP_SKU,,,"Kč527,85",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Tvarohy a pomázanky/Kravské,FA_3018_0003,Bio selský tvaroh měkký tučný 10 kg,,10,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek
+Regionální potravina",,,,"BIO MLÉKO pasterované, mlékárenské kultury, syřidlo. Sušina min. 25 %, tuk v sušině min. 35 %.",3.5 g,7 dnů,421,4.8 g,10.8 g,0 g,3.2 g,3.5 g,Česká republika,10,plast,4 - 8°C,,,,10,kg,TAX_REDUCED (12%),FA_3018_0003_OF,FA_3018_0003,SHOP_SKU,,,"Kč1 055,70",,50,,Nové,,,,,,,UPDATE,30
+Farma - potraviny od farmářů/Mléčné a chlazené/Jogurty/Kravské,FA_3018_0004,Bio selský jogurt bílý   1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, jogurtová kultura, tuk 4 %.",3.8 g,14 dnů,242,4 g,3.5 g,0 g,3 g,3.8 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0004_OF,FA_3018_0004,SHOP_SKU,,,"Kč65,45",,50,,Nové,,,,,,,UPDATE,10
+Farma - potraviny od farmářů/Mléčné a chlazené/Jogurty/Kravské,FA_3018_0005,Bio selský jogurt bílý   5 kg,,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, jogurtová kultura, tuk 4 %.",3.8 g,14 dnů,242,4 g,3.5 g,0 g,3 g,3.8 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0005_OF,FA_3018_0005,SHOP_SKU,,,"Kč327,25",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0006,"Bio selské mléko, tuk 4 – 5%  5 l",,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"Kravské BIO MLÉKO šetrně pasterované, nehomogenizované, obsah tuku min. 3,8 %.",4.8 g,5 dnů,267,3.8 g,3.5 g,0 g,2.8 g,4.8 g,Česká republika,5,plast,4 - 8°C,,,,5,l,TAX_REDUCED (12%),FA_3018_0006_OF,FA_3018_0006,SHOP_SKU,,,"Kč133,10",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0007,"Bio selské mléko, tuk 4 – 5%  10 l",,10,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"Kravské BIO MLÉKO šetrně pasterované, nehomogenizované, obsah tuku min. 3,8 %.",4.8 g,5 dnů,267,3.8 g,3.5 g,0 g,2.8 g,4.8 g,Česká republika,10,plast,4 - 8°C,,,,10,l,TAX_REDUCED (12%),FA_3018_0007_OF,FA_3018_0007,SHOP_SKU,,,"Kč266,20",,50,,Nové,,,,,,,UPDATE,30
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0008,"Bio selské mléko, tuk 3,5% „barista“ 2 l",,2,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"Kravské BIO MLÉKO  pasterované, homogenizované, obsah tuku min. 3,5 %.",4.8 g,5 dnů,267,3.8 g,3.5 g,0 g,2.8 g,4.8 g,Česká republika,2,,4 - 8°C,,,,2,l,TAX_REDUCED (12%),FA_3018_0008_OF,FA_3018_0008,SHOP_SKU,,,"Kč52,40",,50,,Nové,,,,,,,UPDATE,?
+Farma - potraviny od farmářů/Mléčné a chlazené/Smetany,FA_3018_0009,Bio zakysaná smetana 16% 1 l,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO SMETANA, mlékárenská kultura. Tuk 16 %.",3.4 g,14 dnů,682,16 g,2.9 g,0 g,9.7 g,3.4 g,Česká republika,1,plast,4 - 8°C,,,,1,l,TAX_REDUCED (12%),FA_3018_0009_OF,FA_3018_0009,SHOP_SKU,,,"Kč118,91",,50,,Nové,,,,,,,UPDATE,10
+Farma - potraviny od farmářů/Mléčné a chlazené/Smetany,FA_3018_0010,Bio zakysaná smetana 16% 5 l,,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO SMETANA, mlékárenská kultura. Tuk 16 %.",3.4 g,14 dnů,682,16 g,2.9 g,0 g,9.7 g,3.4 g,Česká republika,5,plast,4 - 8°C,,,,5,l,TAX_REDUCED (12%),FA_3018_0010_OF,FA_3018_0010,SHOP_SKU,,,"Kč594,55",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Smetany,FA_3018_0011,Bio čerstvá smetana 35%  1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO SMETANA, BIO MLÉKO. Obsah tuku 35 %.",3.4 g,5 dnů,1384,35 g,2.2 g,0 g,23 g,2.8 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0011_OF,FA_3018_0011,SHOP_SKU,,,"Kč132,00",,50,,Nové,,,,,,,UPDATE,10
+Farma - potraviny od farmářů/Mléčné a chlazené/Smetany,FA_3018_0012,Bio čerstvá smetana 35%  5 kg,,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO SMETANA, BIO MLÉKO. Obsah tuku 35 %.",3.4 g,5 dnů,1384,35 g,2.2 g,0 g,23 g,2.8 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0012_OF,FA_3018_0012,SHOP_SKU,,,"Kč660,00",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0013,Bio kefír bílý 1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, kefírová kultura. Tuk 2 %.",3.97 g,14 dnů,205,2 g,3.52 g,0 g,1.7 g,3 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0013_OF,FA_3018_0013,SHOP_SKU,,,"Kč63,25",,50,,Nové,,,,,,,UPDATE,10
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0014,Bio kefír bílý 5 kg,,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, kefírová kultura. Tuk 2 %.",3.97 g,14 dnů,205,2 g,3.52 g,0 g,1.7 g,3 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0014_OF,FA_3018_0014,SHOP_SKU,,,"Kč316,25",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Máslo/Kravské,FA_3018_0015,Bio farmářské čerstvé máslo 1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,BIO SMETANA. Tuk 82 %.,1 g,14 dnů,3172,83 g,0.7 g,0.1 g,54.9 g,0.1 g,Česká republika,1,papír,2 - 6°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0015_OF,FA_3018_0015,SHOP_SKU,,,"Kč309,50",,50,,Nové,,,,,,,UPDATE,x
+Farma - potraviny od farmářů/Mléčné a chlazené/Máslo/Kravské,FA_3018_0016,Bio farmářské čerstvé máslo 200 g,,"0,2",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,BIO SMETANA. Tuk 82 %.,1 g,14 dnů,3172,83 g,0.7 g,0.1 g,54.9 g,0.1 g,Česká republika,"0,2",papír,2 - 6°C,,,,"0,2",kg,TAX_REDUCED (12%),FA_3018_0016_OF,FA_3018_0016,SHOP_SKU,,,"Kč67,20",,50,,Nové,,,,,,,UPDATE,x
+Farma - potraviny od farmářů/Mléčné a chlazené/Sýry/Kravské,FA_3018_0017,Bio selský čerstvý sýr  1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, mlékárenské kultury, syřidlo, sůl. Sušina min. 25 %, tuk v sušině min. 35 %.",3 g,14 dnů,1207,22.5 g,19 g,1.5 g,14.5 g,3 g,Česká republika,1,vakuováno,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0017_OF,FA_3018_0017,SHOP_SKU,,,"Kč259,60",,50,,Nové,,,,,,,UPDATE,x
+Farma - potraviny od farmářů/Mléčné a chlazené/Sýry/Kravské,FA_3018_0018,Bio sýr na gril 1kg (typ halloumi)  1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, syřidlo, sůl. Sušina min. 25 %, tuk v sušině min. 35 %.",2.4 g,14 dnů,1385,25.1 g,24.4 g,1.5 g,16 g,2.4 g,Česká republika,1,vakuováno,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0018_OF,FA_3018_0018,SHOP_SKU,,,"Kč339,57",,50,,Nové,,,,,,,UPDATE,x
+Farma - potraviny od farmářů/Mléčné a chlazené/Sýry/Kravské,FA_3018_0019,"Eidam 45% 2,5 kg",,"2,5",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, mlékárenské kultury, syřidlo, sůl. Obsah tuku v sušině min. 45 %.",0.2 g,21 dnů,1296,23 g,26 g,1.9 g,16.6 g,0.2 g,Česká republika,"2,5",vakuováno,4 - 8°C,,,,"2,5",kg,TAX_REDUCED (12%),FA_3018_0019_OF,FA_3018_0019,SHOP_SKU,,,"Kč585,75",,50,,Nové,,,,,,,UPDATE,x
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0020,Bio Kefír  1 kg,,1,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, kefírová kultura. Tuk 2 %.",3.97 g,14 dnů,205,2 g,3.52 g,0 g,1.7 g,3 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0020_OF,FA_3018_0020,SHOP_SKU,,,"Kč69,50",,50,,Nové,,,,,,,UPDATE,10
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0021,Bio Kefír  5 kg,,5,,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, kefírová kultura. Tuk 2 %.",3.97 g,14 dnů,205,2 g,3.52 g,0 g,1.7 g,3 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0021_OF,FA_3018_0021,SHOP_SKU,,,"Kč347,50",,50,,Nové,,,,,,,UPDATE,20
+"Farma - potraviny od farmářů/Mléčné a chlazené/Majonézy, tatarky a dresingy",FA_3018_0022,Řemeslná majonéza 1 kg,,1,,,,,,,"mléko, vejce",,,,,"VAJEČNÉ žloutky, rostlinný olej, HOŘČICE, ocet, sůl",2.9 g,14 dnů,2696,71.2 g,0.8 g,1 g,4.7 g,2.9 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0022_OF,FA_3018_0022,SHOP_SKU,,,"Kč104,50",,50,,Nové,,,,,,,UPDATE,10
+"Farma - potraviny od farmářů/Mléčné a chlazené/Majonézy, tatarky a dresingy",FA_3018_0023,Řemeslná majonéza 5 kg,,5,,,,,,,"mléko, vejce",,,,,"VAJEČNÉ žloutky, rostlinný olej, HOŘČICE, ocet, sůl",2.9 g,14 dnů,2696,71.2 g,0.8 g,1 g,4.7 g,2.9 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0023_OF,FA_3018_0023,SHOP_SKU,,,"Kč522,50",,50,,Nové,,,,,,,UPDATE,20
+"Farma - potraviny od farmářů/Mléčné a chlazené/Majonézy, tatarky a dresingy",FA_3018_0024,Řemeslná majonéza 10 kg,,10,,,,,,,"mléko, vejce",,,,,"VAJEČNÉ žloutky, rostlinný olej, HOŘČICE, ocet, sůl",2.9 g,14 dnů,2696,71.2 g,0.8 g,1 g,4.7 g,2.9 g,Česká republika,10,plast,4 - 8°C,,,,10,kg,TAX_REDUCED (12%),FA_3018_0024_OF,FA_3018_0024,SHOP_SKU,,,"Kč1 045,00",,50,,Nové,,,,,,,UPDATE,30
+"Farma - potraviny od farmářů/Mléčné a chlazené/Majonézy, tatarky a dresingy",FA_3018_0025,Naše tatarka 1 kg,,1,,,,,,,"mléko, vejce",,,,,"VAJEČNÉ žloutky, rostlinný olej, HOŘČICE, ocet, sůl, okurka, cukr, cibule",1.54 g,14 dnů,2002,52.13 g,1.66 g,2 g,13.4 g,0.9 g,Česká republika,1,plast,4 - 8°C,,,,1,kg,TAX_REDUCED (12%),FA_3018_0025_OF,FA_3018_0025,SHOP_SKU,,,"Kč115,50",,50,,Nové,,,,,,,UPDATE,10
+"Farma - potraviny od farmářů/Mléčné a chlazené/Majonézy, tatarky a dresingy",FA_3018_0026,Naše tatarka 5 kg,,5,,,,,,,"mléko, vejce",,,,,"VAJEČNÉ žloutky, rostlinný olej, HOŘČICE, ocet, sůl, okurka, cukr, cibule",1.54 g,14 dnů,2002,52.13 g,1.66 g,2 g,13.4 g,0.9 g,Česká republika,5,plast,4 - 8°C,,,,5,kg,TAX_REDUCED (12%),FA_3018_0026_OF,FA_3018_0026,SHOP_SKU,,,"Kč577,50",,50,,Nové,,,,,,,UPDATE,20
+Farma - potraviny od farmářů/Mléčné a chlazené/Jogurty/Kravské,FA_3018_0027,Bio selský jogurt jahoda 140 g,,"0,14",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, 15 % ovocná složka (50 % BIO jahoda, BIO třtinový cukr, citronová šťáva, guma gellan, vitamín C), jogurtová kultura, tuk 4 %.",10.3 g,14 dnů,336,3.6 g,2.7 g,0 g,2.5 g,9.9 g,Česká republika,"0,14",sklo,4 - 8°C,,,,"0,14",kg,TAX_REDUCED (12%),FA_3018_0027_OF,FA_3018_0027,SHOP_SKU,,,"Kč19,36",,50,,Nové,,,,,,,UPDATE,0
+Farma - potraviny od farmářů/Mléčné a chlazené/Jogurty/Kravské,FA_3018_0028,Bio selský jogurt borůvka 140 g,,"0,14",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, 15 % ovocná složka (50 % BIO borůvka, BIO třtinový cukr, citronová šťáva, guma gellan, vitamín C), jogurtová kultura, tuk 4%.",10.3 g,14 dnů,336,3.6 g,2.7 g,0 g,2.5 g,9.9 g,Česká republika,"0,14",sklo,4 - 8°C,,,,"0,14",kg,TAX_REDUCED (12%),FA_3018_0028_OF,FA_3018_0028,SHOP_SKU,,,"Kč19,36",,50,,Nové,,,,,,,UPDATE,0
+Farma - potraviny od farmářů/Mléčné a chlazené/Jogurty/Kravské,FA_3018_0029,Bio selský jogurt meruňka 140 g,,"0,14",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, 15 % ovocná složka (50 % BIO meruňka, BIO třtinový cukr, citronová šťáva, guma gellan, vitamín C), jogurtová kultura, tuk 4 %.",10.3 g,14 dnů,336,3.6 g,2.7 g,0 g,2.5 g,9.9 g,Česká republika,"0,14",sklo,4 - 8°C,,,,"0,14",kg,TAX_REDUCED (12%),FA_3018_0029_OF,FA_3018_0029,SHOP_SKU,,,"Kč19,36",,50,,Nové,,,,,,,UPDATE,0
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0030,Bio kefír bílý 300 g,,"0,3",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, kefírová kultura. Tuk 2 %.",3.97 g,14 dnů,205,2 g,3.52 g,0 g,1.7 g,3 g,Česká republika,"0,3",sklo,4 - 8°C,,,,"0,3",kg,TAX_REDUCED (12%),FA_3018_0030_OF,FA_3018_0030,SHOP_SKU,,,"Kč28,50",,50,,Nové,,,,,,,UPDATE,0
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0031,Bio kefír jahoda 300 g,,"0,3",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, 15 % ovocná složka (50 % BIO jahoda, BIO třtinový cukr, citronová šťáva, guma gellan, vitamín C), kefírová kultura. Tuk 2 %.",44 g,14 dnů,820,2.3 g,3.52 g,0 g,1.7 g,43 g,Česká republika,"0,3",sklo,4 - 8°C,,,,"0,3",kg,TAX_REDUCED (12%),FA_3018_0031_OF,FA_3018_0031,SHOP_SKU,,,"Kč30,69",,50,,Nové,,,,,,,UPDATE,0
+Farma - potraviny od farmářů/Mléčné a chlazené/Mléka a nápoje/Kravské,FA_3018_0032,Bio kefír borůvka 300 g,,"0,3",,,,,,,mléko,"CZ-BIO-003
+Zemědělská produkce EU
+CZ31850322ES – v oválném rámečku
+česká BIO zebra
+BIO lístek",,,,"BIO MLÉKO pasterované, 15 % ovocná složka (50 % BIO borůvka, BIO třtinový cukr, citronová šťáva, guma gellan, vitamín C), kefírová kultura. Tuk 2 %.",44 g,14 dnů,820,2.3 g,3.52 g,0 g,1.7 g,43 g,Česká republika,"0,3",sklo,4 - 8°C,,,,"0,3",kg,TAX_REDUCED (12%),FA_3018_0032_OF,FA_3018_0032,SHOP_SKU,,,"Kč30,69",,50,,Nové,,,,,,,UPDATE,0

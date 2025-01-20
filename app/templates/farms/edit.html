@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Úprava farmy - Supplo.ai{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Úprava farmy</h2>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form id="farmEditForm" method="POST" action="{{ url_for('farms.edit', farm_id=farm.farm_id) }}" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="farm_id" class="form-label">ID farmy *</label>
+                            <input type="text" class="form-control" id="farm_id" name="farm_id" value="{{ farm.farm_id }}" readonly>
+                            <div class="form-text">Unikátní identifikátor farmy (nelze změnit)</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Název farmy *</label>
+                            <input type="text" class="form-control" id="name" name="name" required minlength="3" maxlength="100" value="{{ farm.name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Popis farmy *</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required minlength="10" maxlength="500">{{ farm.description }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="products_csv" class="form-label">CSV soubor s produkty</label>
+                            <input type="file" class="form-control" id="products_csv" name="products_csv" accept=".csv">
+                            <div class="form-text">Nahrajte nový CSV soubor s produkty pro aktualizaci seznamu produktů</div>
+                        </div>
+                        <div class="text-center">
+                            <a href="{{ url_for('farms.list') }}" class="btn btn-secondary me-2">
+                                Zrušit
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Uložit změny
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('farmEditForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!this.checkValidity()) {
+        e.stopPropagation();
+        this.classList.add('was-validated');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('name', this.name.value);
+    formData.append('description', this.description.value);
+    
+    if (this.products_csv.files.length > 0) {
+        formData.append('products_csv', this.products_csv.files[0]);
+    }
+    
+    fetch(this.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Aktualizace selhala');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            window.location.href = data.redirect_url;
+        } else {
+            throw new Error(data.message || 'Chyba při aktualizaci farmy');
+        }
+    })
+    .catch(error => {
+        const alert = document.createElement('div');
+        alert.className = 'alert alert-danger alert-dismissible fade show mt-3';
+        alert.innerHTML = `
+            Chyba při aktualizaci: ${error.message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        this.insertAdjacentElement('beforebegin', alert);
+    });
+});
+</script>
+{% endblock %} 

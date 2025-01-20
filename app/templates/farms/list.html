@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Seznam farem - Supplo.ai{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Moje farmy</h1>
+        <a href="{{ url_for('farms.register') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Přidat farmu
+        </a>
+    </div>
+
+    {% if farms %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Název farmy</th>
+                        <th>ID farmy</th>
+                        <th>Popis</th>
+                        <th>Počet produktů</th>
+                        <th>Vytvořeno</th>
+                        <th>Upraveno</th>
+                        <th>Akce</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for farm in farms %}
+                        <tr>
+                            <td>{{ farm.name }}</td>
+                            <td>{{ farm.farm_id }}</td>
+                            <td>{{ farm.description }}</td>
+                            <td>{{ farm.products|length if farm.products else 0 }}</td>
+                            <td>{{ farm.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>{{ farm.modified_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ url_for('farms.edit', farm_id=farm.farm_id) }}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Upravit
+                                    </a>
+                                    <button onclick="deleteFarm('{{ farm.farm_id }}')" 
+                                            class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i> Smazat
+                                    </button>
+                                    <a href="{{ url_for('products.generate_product_content', farm_id=farm.farm_id) }}"
+                                       class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-magic"></i> Generovat
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-tractor fa-3x text-muted"></i>
+            </div>
+            <h3>Zatím nemáte žádné farmy</h3>
+            <p class="text-muted">Začněte tím, že si zaregistrujete svou první farmu</p>
+            <a href="{{ url_for('farms.register') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Přidat farmu
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Modal pro potvrzení smazání -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazat farmu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chcete smazat tuto farmu? Tato akce je nevratná.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Smazat</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let farmToDelete = null;
+const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+
+function deleteFarm(farmId) {
+    farmToDelete = farmId;
+    deleteModal.show();
+}
+
+function confirmDelete() {
+    if (!farmToDelete) return;
+    
+    fetch(`/farms/${farmToDelete}/delete`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Farma nebyla nalezena nebo nemáte oprávnění k jejímu smazání');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            throw new Error(data.message || 'Chyba při mazání farmy');
+        }
+    })
+    .catch(error => {
+        console.error('Chyba:', error);
+        alert(error.message || 'Chyba při mazání farmy');
+    })
+    .finally(() => {
+        deleteModal.hide();
+        farmToDelete = null;
+    });
+}
+</script>
+{% endblock %} 

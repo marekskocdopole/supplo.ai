@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block title %}Nastavení profilu - Supplo.ai{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <!-- Záložky -->
+        <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" 
+                        id="profile-tab" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#profile" 
+                        type="button" 
+                        role="tab">
+                    <i class="fas fa-user"></i> Profil
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" 
+                        id="security-tab" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#security" 
+                        type="button" 
+                        role="tab">
+                    <i class="fas fa-lock"></i> Zabezpečení
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" 
+                        id="data-tab" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#data" 
+                        type="button" 
+                        role="tab">
+                    <i class="fas fa-database"></i> Data
+                </button>
+            </li>
+        </ul>
+
+        <!-- Obsah záložek -->
+        <div class="tab-content" id="profileTabsContent">
+            <!-- Profil -->
+            <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title mb-0">Osobní údaje</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="profile-form">
+                            <input type="hidden" name="update_type" value="profile">
+                            
+                            <!-- Jméno a příjmení -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="first_name" class="form-label">Jméno *</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="first_name" 
+                                           name="first_name" 
+                                           value="{{ current_user.first_name }}" 
+                                           required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="last_name" class="form-label">Příjmení *</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="last_name" 
+                                           name="last_name" 
+                                           value="{{ current_user.last_name }}" 
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- Email a telefon -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           name="email" 
+                                           value="{{ current_user.email }}" 
+                                           required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Telefon</label>
+                                    <input type="tel" 
+                                           class="form-control" 
+                                           id="phone" 
+                                           name="phone" 
+                                           value="{{ current_user.phone }}"
+                                           pattern="[0-9+ ]{9,}">
+                                </div>
+                            </div>
+
+                            <!-- Společnost -->
+                            <div class="mb-3">
+                                <label for="company" class="form-label">Společnost</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="company" 
+                                       name="company" 
+                                       value="{{ current_user.company }}">
+                            </div>
+
+                            <!-- Notifikace -->
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="checkbox" 
+                                           id="notifications_enabled" 
+                                           name="notifications_enabled"
+                                           {% if current_user.notifications_enabled %}checked{% endif %}>
+                                    <label class="form-check-label" for="notifications_enabled">
+                                        Chci dostávat emailové notifikace
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                Uložit změny
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zabezpečení -->
+            <div class="tab-pane fade" id="security" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title mb-0">Změna hesla</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="password-form">
+                            <input type="hidden" name="update_type" value="password">
+                            
+                            <div class="mb-3">
+                                <label for="current_password" class="form-label">Současné heslo *</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="current_password" 
+                                       name="current_password" 
+                                       required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="new_password" class="form-label">Nové heslo *</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="new_password" 
+                                       name="new_password" 
+                                       required 
+                                       minlength="8">
+                                <div class="form-text">
+                                    Heslo musí mít alespoň 8 znaků
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Potvrzení hesla *</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="confirm_password" 
+                                       name="confirm_password" 
+                                       required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                Změnit heslo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-danger text-white">
+                        <h2 class="card-title mb-0">Smazání účtu</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Varování: Smazání účtu je nevratná akce. Všechna vaše data budou trvale odstraněna.
+                        </p>
+                        <button type="button" 
+                                class="btn btn-danger" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteAccountModal">
+                            Smazat účet
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data -->
+            <div class="tab-pane fade" id="data" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title mb-0">Export dat</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Zde si můžete stáhnout všechna vaše data ve formátu JSON.
+                            Export obsahuje vaše osobní údaje, farmy a produkty.
+                        </p>
+                        <button type="button" 
+                                class="btn btn-primary" 
+                                onclick="exportData()">
+                            <i class="fas fa-download"></i> Stáhnout data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pro smazání účtu -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazání účtu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">
+                    Pro potvrzení smazání účtu zadejte své heslo:
+                </p>
+                <div class="mb-3">
+                    <input type="password" 
+                           class="form-control" 
+                           id="delete_password" 
+                           placeholder="Heslo">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+                <button type="button" class="btn btn-danger" onclick="deleteAccount()">Smazat účet</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Formulář profilu
+document.getElementById('profile-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    if (!form.checkValidity()) {
+        e.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+    }
+    
+    fetch('{{ url_for("profile.settings") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            update_type: 'profile',
+            first_name: form.first_name.value,
+            last_name: form.last_name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            company: form.company.value,
+            notifications_enabled: form.notifications_enabled.checked
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Aktualizace selhala');
+        }
+        return response.json();
+    })
+    .then(data => {
+        showAlert('success', data.message);
+    })
+    .catch(error => {
+        showAlert('danger', error.message);
+    });
+});
+
+// Formulář hesla
+document.getElementById('password-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    if (!form.checkValidity()) {
+        e.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+    }
+    
+    if (form.new_password.value !== form.confirm_password.value) {
+        showAlert('danger', 'Hesla se neshodují');
+        return;
+    }
+    
+    fetch('{{ url_for("profile.settings") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            update_type: 'password',
+            current_password: form.current_password.value,
+            new_password: form.new_password.value,
+            confirm_password: form.confirm_password.value
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Změna hesla selhala');
+        }
+        return response.json();
+    })
+    .then(data => {
+        showAlert('success', data.message);
+        form.reset();
+    })
+    .catch(error => {
+        showAlert('danger', error.message);
+    });
+});
+
+// Smazání účtu
+function deleteAccount() {
+    const password = document.getElementById('delete_password').value;
+    if (!password) {
+        showAlert('danger', 'Zadejte heslo');
+        return;
+    }
+    
+    fetch('{{ url_for("profile.delete") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            password: password
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Smazání účtu selhalo');
+        }
+        return response.json();
+    })
+    .then(data => {
+        window.location.href = data.redirect_url;
+    })
+    .catch(error => {
+        showAlert('danger', error.message);
+    });
+}
+
+// Export dat
+function exportData() {
+    fetch('{{ url_for("profile.export") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Export dat selhal');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Stažení dat
+        const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'supplo-data.json';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+        
+        showAlert('success', data.message);
+    })
+    .catch(error => {
+        showAlert('danger', error.message);
+    });
+}
+
+// Pomocná funkce pro zobrazení alertu
+function showAlert(type, message) {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} alert-dismissible fade show`;
+    alert.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.querySelector('.tab-content').insertAdjacentElement('beforebegin', alert);
+}
+</script>
+{% endblock %} 

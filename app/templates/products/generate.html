@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}Generování produktů - Supplo.ai{% endblock %}
+
+{% block extra_css %}
+<link href="{{ url_for('static', filename='css/products.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Generování obsahu produktů</h1>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <select id="farm-select" class="form-select">
+                <option value="">Vyberte farmu...</option>
+                {% for farm in farms %}
+                <option value="{{ farm.farm_id }}">{{ farm.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="progress mb-3">
+        <div id="main-progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+    </div>
+    <p id="progress-counter">0/0 produktů potvrzeno</p>
+
+    <div id="export-section" style="display: none; margin-bottom: 20px;">
+        <select id="export-format" class="form-select" style="width: auto; display: inline-block; margin-right: 10px;">
+            <option value="csv">CSV</option>
+            <option value="excel">Excel</option>
+        </select>
+        <button onclick="exportToCSV()" class="btn btn-primary">Exportovat data</button>
+    </div>
+
+    <div id="products-container">
+        <!-- Zde budou vykresleny produkty -->
+    </div>
+</div>
+
+<!-- Šablona pro produkt -->
+<template id="product-template">
+    <div class="product-row" id="product-row-${index}" data-confirmed="false">
+        <div class="col-12">
+            <!-- Hlavička produktu -->
+            <div class="d-flex align-items-center mb-3">
+                <!-- Název a dodatečné informace -->
+                <div class="product-info flex-grow-1">
+                    <div class="product-name">${product.name}</div>
+                    <div class="additional-fields">
+                        <!-- Alternativní název -->
+                        <input type="text" 
+                               class="form-control form-control-sm" 
+                               id="alt-name-${index}"
+                               placeholder="Alternativní název pro generování">
+                        
+                        <!-- Typ produktu -->
+                        <select class="form-select form-select-sm" 
+                                id="product-type-${index}">
+                            <option value="">Ručně změnit skupenství</option>
+                            <option value="liquid">Tekuté</option>
+                            <option value="semi-solid">Mazlavé</option>
+                            <option value="solid">Pevné</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kontrolní tlačítka -->
+                <div class="button-container">
+                    <!-- Generovat vše -->
+                    <button class="generate-icon" 
+                            onclick="startGeneration(${index})" 
+                            title="Generovat vše">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <!-- Potvrdit -->
+                    <button class="confirm-icon" 
+                            onclick="confirmProduct(${index})" 
+                            title="Potvrdit produkt">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    
+                    <!-- Upravit -->
+                    <button class="edit-icon" 
+                            onclick="enableEdit(${index})" 
+                            title="Upravit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Obsah produktu -->
+            <div class="row">
+                <!-- Sekce obrázku -->
+                <div class="col-2">
+                    <div class="image-section">
+                        <!-- Progress container -->
+                        <div class="progress-container">
+                            <button class="regenerate-icon regenerate-btn"
+                                    onclick="regenerateImages(${index})"
+                                    disabled
+                                    title="Regenerovat obrázek">
+                                <i class="fas fa-redo-alt"></i>
+                            </button>
+                            <div class="progress">
+                                <div class="progress-bar generation-progress"
+                                     data-type="images"
+                                     data-index="${index}">
+                                    <span class="progress-text">Čekání...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image container -->
+                        <div class="image-container">
+                            <input type="file" 
+                                   id="image-upload-${index}" 
+                                   class="hidden"
+                                   accept="image/*"
+                                   onchange="handleImageUpload(${index}, this)">
+                            
+                            <button class="upload-image-btn"
+                                    onclick="triggerImageUpload(${index})">
+                                Nahrát obrázek
+                            </button>
+                            
+                            <div id="image-preview-${index}" 
+                                 class="image-preview"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sekce krátkého popisu -->
+                <div class="col-2">
+                    <div class="short-description-section">
+                        <!-- Progress container -->
+                        <div class="progress-container">
+                            <button class="regenerate-icon regenerate-btn"
+                                    onclick="regenerateDescriptionShort(${index})"
+                                    disabled
+                                    title="Regenerovat krátký popis">
+                                <i class="fas fa-redo-alt"></i>
+                            </button>
+                            <div class="progress">
+                                <div class="progress-bar generation-progress"
+                                     data-type="short"
+                                     data-index="${index}">
+                                    <span class="progress-text">Čekání...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description container -->
+                        <div id="short-description-${index}" 
+                             class="description-text">
+                            Čekání na generování...
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sekce dlouhého popisu -->
+                <div class="col-8">
+                    <div class="long-description-section">
+                        <!-- Progress container -->
+                        <div class="progress-container">
+                            <button class="regenerate-icon regenerate-btn"
+                                    onclick="regenerateDescriptionLong(${index})"
+                                    disabled
+                                    title="Regenerovat dlouhý popis">
+                                <i class="fas fa-redo-alt"></i>
+                            </button>
+                            <div class="progress">
+                                <div class="progress-bar generation-progress"
+                                     data-type="long"
+                                     data-index="${index}">
+                                    <span class="progress-text">Čekání...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description container -->
+                        <div id="long-description-${index}" 
+                             class="description-text">
+                            Čekání na generování...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+{% endblock %} 
