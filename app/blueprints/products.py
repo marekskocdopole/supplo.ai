@@ -103,8 +103,10 @@ def upload_image():
         image_path = product_manager.save_product_image(farm_id, sku, image)
         
         if current_app.config['ENV'] == 'production':
-            # V produkci vracíme plnou URL
-            return jsonify({'image_path': f'http://161.35.70.99/data/farms/{farm_id}/{farm_id}_images/{os.path.basename(image_path)}'})
+            # V produkci vracíme plnou URL s celou cestou
+            filename = os.path.basename(image_path)
+            full_url = f'http://161.35.70.99/data/farms/{farm_id}/{farm_id}_images/{filename}'
+            return jsonify({'image_path': full_url})
         else:
             # Lokálně vracíme relativní cestu
             return jsonify({'image_path': image_path})
