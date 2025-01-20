@@ -93,4 +93,6 @@ Aplikace pro generování popisků produktů pomocí AI.
 
 Test automatického deploymentu po opravě SSH.
 
-Test automatického deploymentu s novým SSH klíčem. 
+Test automatického deploymentu s novým SSH klíčem.
+
+Test deploymentu po restartu serveru. 
