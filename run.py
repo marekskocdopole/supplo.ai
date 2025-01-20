@@ -11,7 +11,8 @@ if __name__ == '__main__':
                     host='0.0.0.0',  # Povolí přístup z vnější sítě
                     port=port,
                     debug=False,
-                    use_reloader=False)
+                    use_reloader=False,
+                    allow_unsafe_werkzeug=True)
     else:
         # Vývojové nastavení - použijeme port 5001 místo 5000
         socketio.run(app, 
