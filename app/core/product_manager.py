@@ -135,11 +135,15 @@ class ProductManager:
                         current_app.logger.error(f"Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
-                    # VŽDY použít produkční URL pro ukládání do JSONu
-                    base_url = "http://161.35.70.99"
-                    current_app.logger.info(f"Použita produkční URL: {base_url}")
+                    # Detekce prostředí podle cesty
+                    if '/var/www/supplo.ai' in os.path.abspath(__file__):
+                        base_url = "http://161.35.70.99"
+                        current_app.logger.info(f"Detekováno produkční prostředí, base_url: {base_url}")
+                    else:
+                        base_url = "http://127.0.0.1:5001"
+                        current_app.logger.info(f"Detekováno lokální prostředí, base_url: {base_url}")
                     
-                    # Vytvoření kompletní URL pro obrázek
+                    # Vytvoření kompletní URL pro obrázek - VŽDY použít /products/ cestu
                     image_url = f"{base_url}/products/{farm_id}_images/{filename}"
                     current_app.logger.info(f"Vytvořena URL obrázku: {image_url}")
                     
