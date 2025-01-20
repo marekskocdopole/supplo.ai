@@ -91,7 +91,6 @@ class ProductManager:
             # Načtení JSON souboru
             json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
             
-            # Kontrola existence JSON souboru
             if not os.path.exists(json_path):
                 raise ValueError(f"JSON soubor pro farmu {farm_id} neexistuje")
             
@@ -99,11 +98,8 @@ class ProductManager:
                 farm_data = json.load(f)
             
             # Najít produkt
-            product_found = False
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
-                    product_found = True
-                    
                     # Vytvoření cesty pro obrázek
                     images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
@@ -113,25 +109,24 @@ class ProductManager:
                     image_path = os.path.join(images_dir, filename)
                     image_file.save(image_path)
                     
-                    # Vytvoření kompletní URL pro obrázek
-                    base_url = "http://161.35.70.99"
-                    image_url = f"{base_url}/products/{farm_id}_images/{filename}"
+                    # Kompletní URL pro obrázek
+                    image_url = f"http://161.35.70.99/products/{farm_id}_images/{filename}"
                     
-                    # Aktualizace URL v JSONu
+                    # Uložení KOMPLETNÍ URL do JSONu
                     product['mirakl_image_1'] = image_url
+                    product['image_path'] = image_url  # Přidáno: ukládáme kompletní URL i do image_path
                     
                     # Uložení změn do JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
                         json.dump(farm_data, f, ensure_ascii=False, indent=2)
                     
-                    print(f"Uložen obrázek s URL: {image_url}")  # Debug log
+                    print(f"DEBUG: Uložena kompletní URL do JSONu: {image_url}")
                     return image_url
             
-            if not product_found:
-                raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
+            raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
             
         except Exception as e:
-            print(f"Chyba při ukládání obrázku: {str(e)}")  # Debug log
+            print(f"Chyba při ukládání obrázku: {str(e)}")
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
     
     def confirm_product(self, farm_id: str, sku: str) -> bool:
@@ -224,8 +219,14 @@ class ProductManager:
         if not farm:
             return []
             
-        return [
-            {
+        result = []
+        for p in products:
+            # Kontrola jestli už máme kompletní URL
+            image_url = p.image_path
+            if image_url and not image_url.startswith('http'):
+                image_url = f"http://161.35.70.99/products/{farm.farm_id}_images/{p.sku}.jpg"
+                
+            result.append({
                 'Shop SKU': p.sku,
                 'Name': p.name,
                 'Description': p.original_description or '',
@@ -233,12 +234,12 @@ class ProductManager:
                 'Farm Description': p.metadata_dict.get('farm_description', ''),
                 'Short Description': p.short_description or '',
                 'Long Description': p.long_description or '',
-                'mirakl_image_1': f"http://161.35.70.99/products/{farm.farm_id}_images/{p.sku}.jpg" if p.image_path else '',
+                'mirakl_image_1': image_url or '',  # Použijeme kompletní URL
                 'Price': p.price or '',
                 'Unit': p.unit or '',
                 'Stock': p.stock or 0,
                 'Status': 'Active' if p.is_active else 'Inactive',
                 'Confirmed': 'Yes' if p.is_confirmed else 'No'
-            }
-            for p in products
-        ] 
+            })
+            
+        return result 
