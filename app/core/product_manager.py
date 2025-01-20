@@ -6,6 +6,7 @@ from app import db
 from app.core.models import Product, Farm
 from app.config.config import Config
 from app.generators.text_generator import TextGenerator, GenerationError
+from flask import current_app
 
 class ProductManager:
     def __init__(self):
@@ -89,7 +90,11 @@ class ProductManager:
         """Uloží obrázek produktu"""
         try:
             # Načtení JSON souboru
-            json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            if current_app.config['ENV'] == 'production':
+                json_path = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}.json')
+            else:
+                json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            
             with open(json_path, 'r', encoding='utf-8') as f:
                 farm_data = json.load(f)
             
@@ -97,7 +102,11 @@ class ProductManager:
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
                     # Vytvoření cesty pro obrázek
-                    images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
+                    if current_app.config['ENV'] == 'production':
+                        images_dir = os.path.join('/var/www/supplo.ai/app/data/farms', farm_id, f'{farm_id}_images')
+                    else:
+                        images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
+                    
                     os.makedirs(images_dir, exist_ok=True)
                     
                     # Uložení obrázku s názvem shop_sku.jpg
@@ -118,7 +127,6 @@ class ProductManager:
                     return relative_path
             
             raise ValueError(f"Produkt {sku} nenalezen")
-            
         except Exception as e:
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
     

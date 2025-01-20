@@ -15,6 +15,7 @@ class ProductionConfig(Config):
     # Cesty k souborům
     UPLOAD_FOLDER = '/var/www/supplo.ai/app/static/uploads'
     DATA_DIR = '/var/www/supplo.ai/app/data'
+    FARMS_DATA_DIR = '/var/www/supplo.ai/app/data/farms'
     
     # Databáze
     SQLALCHEMY_DATABASE_URI = 'sqlite:////var/www/supplo.ai/app.db'  # Pro začátek SQLite, později můžeme přejít na PostgreSQL
