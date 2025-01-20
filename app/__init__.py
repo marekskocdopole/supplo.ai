@@ -135,7 +135,7 @@ def create_app(config_class=Config):
         db.session.rollback()
         return render_template('errors/500.html'), 500
 
-    @app.route('/products/<path:farm_id>_images/<filename>')
+    @app.route('/data/farms/<path:farm_id>/<path:farm_id>_images/<filename>')
     def serve_farm_image(farm_id, filename):
         """Servíruje obrázky z adresáře farmy"""
         if app.config['ENV'] == 'production':

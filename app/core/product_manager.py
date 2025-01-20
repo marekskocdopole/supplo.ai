@@ -119,7 +119,7 @@ class ProductManager:
                     # Aktualizace cesty v JSONu
                     if current_app.config['ENV'] == 'production':
                         # Pro JSON ukládáme kompletní URL adresu pro přímé stažení
-                        full_url = f'http://161.35.70.99/products/{farm_id}_images/{filename}'
+                        full_url = f'http://161.35.70.99/data/farms/{farm_id}/{farm_id}_images/{filename}'
                         product['mirakl_image_1'] = full_url
                         return_path = full_url
                     else:
