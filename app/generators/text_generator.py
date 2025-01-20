@@ -18,8 +18,7 @@ class TextGenerator:
     def __init__(self):
         self.client = OpenAI(
             api_key=Config.OPENAI_API_KEY,
-            base_url="https://api.openai.com/v1",
-            timeout=10.0
+            base_url="https://api.openai.com/v1"
         )
         self.name_processor = ProductNameProcessor()
         
