@@ -86,40 +86,52 @@ class ProductManager:
         return True
     
     def save_product_image(self, farm_id: str, sku: str, image_file) -> Optional[str]:
-        """Uloží obrázek produktu"""
+        """Uloží obrázek produktu a vrátí kompletní URL"""
         try:
             # Načtení JSON souboru
             json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            
+            # Kontrola existence JSON souboru
+            if not os.path.exists(json_path):
+                raise ValueError(f"JSON soubor pro farmu {farm_id} neexistuje")
+            
             with open(json_path, 'r', encoding='utf-8') as f:
                 farm_data = json.load(f)
             
             # Najít produkt
+            product_found = False
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
+                    product_found = True
+                    
                     # Vytvoření cesty pro obrázek
                     images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
                     
-                    # Uložení obrázku s názvem shop_sku.jpg
+                    # Uložení obrázku
                     filename = f"{sku}.jpg"
                     image_path = os.path.join(images_dir, filename)
-                    
-                    # Uložení souboru
                     image_file.save(image_path)
                     
-                    # V produkci vždy ukládáme kompletní URL
-                    image_url = f"http://161.35.70.99/products/{farm_id}_images/{filename}"
+                    # Vytvoření kompletní URL pro obrázek
+                    base_url = "http://161.35.70.99"
+                    image_url = f"{base_url}/products/{farm_id}_images/{filename}"
+                    
+                    # Aktualizace URL v JSONu
                     product['mirakl_image_1'] = image_url
                     
-                    # Uložení JSONu
+                    # Uložení změn do JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
                         json.dump(farm_data, f, ensure_ascii=False, indent=2)
                     
+                    print(f"Uložen obrázek s URL: {image_url}")  # Debug log
                     return image_url
             
-            raise ValueError(f"Produkt {sku} nenalezen")
+            if not product_found:
+                raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
             
         except Exception as e:
+            print(f"Chyba při ukládání obrázku: {str(e)}")  # Debug log
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
     
     def confirm_product(self, farm_id: str, sku: str) -> bool:
