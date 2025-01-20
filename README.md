@@ -95,4 +95,6 @@ Test automatického deploymentu po opravě SSH.
 
 Test automatického deploymentu s novým SSH klíčem.
 
-Test deploymentu po restartu serveru. 
+Test deploymentu po restartu serveru.
+
+Deployment je nyní plně funkční a automatizovaný. 
