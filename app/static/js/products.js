@@ -392,6 +392,12 @@ function handleImageUpload(index) {
         return;
     }
 
+    // Kontrola farm_id
+    if (!selectedFarmId) {
+        showError('Není vybrána farma');
+        return;
+    }
+
     // Deaktivace tlačítka potvrdit během nahrávání
     const confirmButton = document.getElementById(`confirmButton_${index}`);
     if (confirmButton) {
@@ -404,6 +410,13 @@ function handleImageUpload(index) {
     formData.append('image', file);
     formData.append('farm_id', selectedFarmId);
     formData.append('sku', products[index].sku);
+
+    console.log('DEBUG: Odesílám data:', {
+        farm_id: selectedFarmId,
+        sku: products[index].sku,
+        file_name: file.name,
+        file_type: file.type
+    });
 
     // Nastavení progress baru
     const progressBar = document.querySelector(`.progress-bar[data-type="images"][data-index="${index}"]`);
@@ -423,12 +436,16 @@ function handleImageUpload(index) {
         body: formData
     })
     .then(response => {
+        console.log('DEBUG: Server response:', response.status, response.statusText);
         if (!response.ok) {
-            throw new Error('Chyba při nahrávání obrázku');
+            return response.json().then(data => {
+                throw new Error(data.error || 'Chyba při nahrávání obrázku');
+            });
         }
         return response.json();
     })
     .then(data => {
+        console.log('DEBUG: Server data:', data);
         if (data.error) {
             throw new Error(data.error);
         }
@@ -457,7 +474,7 @@ function handleImageUpload(index) {
         }
     })
     .catch(error => {
-        console.error('Chyba při nahrávání:', error);
+        console.error('DEBUG: Chyba při nahrávání:', error);
         showError(error.message || 'Chyba při nahrávání obrázku');
         
         // Aktualizace progress baru

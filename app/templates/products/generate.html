@@ -119,10 +119,11 @@
                                    id="image-upload-${index}" 
                                    class="hidden"
                                    accept="image/*"
-                                   onchange="handleImageUpload(${index}, this)">
+                                   onchange="handleImageUpload(${index})">
                             
                             <button class="upload-image-btn"
-                                    onclick="triggerImageUpload(${index})">
+                                    onclick="triggerImageUpload(${index})"
+                                    type="button">
                                 Nahrát obrázek
                             </button>
                             

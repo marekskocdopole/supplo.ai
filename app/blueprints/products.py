@@ -121,6 +121,12 @@ def upload_image():
             current_app.logger.error(f"Uživatel {current_user.id} nemá přístup k farmě {farm_id}")
             return jsonify({'error': 'Nemáte přístup k této farmě'}), 403
         
+        # Kontrola existence adresáře pro farmu
+        farm_dir = os.path.join(current_app.root_path, 'data', 'farms', farm_id)
+        if not os.path.exists(farm_dir):
+            os.makedirs(farm_dir)
+            current_app.logger.info(f"Vytvořen adresář pro farmu: {farm_dir}")
+        
         # Uložení obrázku
         try:
             current_app.logger.info("Ukládám obrázek pomocí ProductManager")
