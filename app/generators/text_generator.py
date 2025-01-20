@@ -25,7 +25,7 @@ class TextGenerator:
         """Generování krátkého popisu s upraveným názvem produktu."""
         # Zjednodušení názvu produktu
         name_processor = ProductNameProcessor()
-        simplified_name = name_processor._simplify_product_name(
+        simplified_name = name_processor.simplify_product_name(
             product_data['name'],
             alt_name=product_data.get('alt_name', '')
         )
@@ -57,7 +57,7 @@ class TextGenerator:
         """Generování dlouhého popisu s upraveným názvem produktu."""
         # Zjednodušení názvu produktu
         name_processor = ProductNameProcessor()
-        simplified_name = name_processor._simplify_product_name(
+        simplified_name = name_processor.simplify_product_name(
             product_data['name'],
             alt_name=product_data.get('alt_name', '')
         )
@@ -142,7 +142,7 @@ class TextGenerator:
     
     def _generate_with_gpt4(self, prompt: str, max_tokens: int) -> str:
         response = self.client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {
                     "role": "system", 

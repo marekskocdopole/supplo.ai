@@ -5,7 +5,7 @@ class ProductNameProcessor:
         self._translation_cache = {}  # Cache pro překlady
         self._product_type_cache = {} # Cache pro typy produktů
 
-    def _simplify_product_name(self, product_name: str, for_image: bool = False, alt_name: str = None) -> str:
+    def simplify_product_name(self, product_name: str, for_image: bool = False, alt_name: str = None) -> str:
         """
         Zjednodušuje název produktu odstraněním nepotřebných slov a přívlastků.
         
