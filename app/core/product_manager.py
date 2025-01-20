@@ -117,8 +117,13 @@ class ProductManager:
                     image_file.save(image_path)
                     
                     # Aktualizace cesty v JSONu
-                    relative_path = os.path.join(f'{farm_id}_images', filename)
-                    product['mirakl_image_1'] = relative_path
+                    if current_app.config['ENV'] == 'production':
+                        relative_path = os.path.join(f'{farm_id}_images', filename)
+                        absolute_url = f'http://161.35.70.99/products/{relative_path}'
+                        product['mirakl_image_1'] = absolute_url
+                    else:
+                        relative_path = os.path.join(f'{farm_id}_images', filename)
+                        product['mirakl_image_1'] = relative_path
                     
                     # Uložení JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
