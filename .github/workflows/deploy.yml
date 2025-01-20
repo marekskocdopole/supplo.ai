@@ -17,6 +17,7 @@ jobs:
           host: 161.35.70.99
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
           script: |
             cd /var/www/supplo.ai
             git pull origin main
