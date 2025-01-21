@@ -304,16 +304,17 @@ def regenerate_product_content(sku):
 @products_bp.route('/api/farms/<farm_id>/export', methods=['GET'])
 def export_farm_data(farm_id):
     try:
-        # Načtení JSON souboru
-        json_path = os.path.join(current_app.root_path, 'data', 'farms', farm_id, f'{farm_id}.json')
-        with open(json_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        # Kontrola přístupu k farmě
+        farm = Farm.query.filter_by(farm_id=farm_id).first_or_404()
         
-        # Získání pouze potvrzených produktů
-        products = [p for p in data['products'] if p.get('is_confirmed', False)]
+        if farm.user_id != current_user.id:
+            return jsonify({'error': 'Nemáte přístup k této farmě'}), 403
+            
+        # Použití ProductManager pro export dat
+        products = product_manager.export_products_csv(farm.id)
         
         if not products:
-            return jsonify({'error': 'Žádné potvrzené produkty k exportu'}), 400
+            return jsonify({'error': 'Žádné produkty k exportu'}), 400
         
         # Vytvoření DataFrame
         df = pd.DataFrame(products)
