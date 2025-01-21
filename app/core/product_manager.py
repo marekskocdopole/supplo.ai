@@ -170,29 +170,31 @@ class ProductManager:
                         current_app.logger.info(f"Původní mirakl_image_1: {p.get('mirakl_image_1')}")
                         current_app.logger.info(f"Původní image_path: {p.get('image_path')}")
                         
-                        # Kontrola mirakl_image_1
-                        if 'mirakl_image_1' in p and p['mirakl_image_1'] and not p['mirakl_image_1'].startswith('http'):
-                            p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                            updated_count += 1
-                        # Kontrola image_path
-                        if 'image_path' in p and p['image_path'] and not p['image_path'].startswith('http'):
-                            p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                            updated_count += 1
+                        # Kontrola a aktualizace URL pro všechny produkty
+                        if 'mirakl_image_1' in p and p['mirakl_image_1']:
+                            if not p['mirakl_image_1'].startswith('http'):
+                                p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
+                                updated_count += 1
+                            elif 'localhost' in p['mirakl_image_1'] or '127.0.0.1' in p['mirakl_image_1']:
+                                p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
+                                updated_count += 1
+                        
+                        if 'image_path' in p and p['image_path']:
+                            if not p['image_path'].startswith('http'):
+                                p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
+                                updated_count += 1
+                            elif 'localhost' in p['image_path'] or '127.0.0.1' in p['image_path']:
+                                p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
+                                updated_count += 1
                             
                         current_app.logger.info(f"Nové mirakl_image_1: {p.get('mirakl_image_1')}")
                         current_app.logger.info(f"Nové image_path: {p.get('image_path')}")
                     
-                    current_app.logger.info(f"Aktualizováno {updated_count} URL v ostatních produktech")
-                    
-                    # Uložení změn do JSONu
-                    try:
-                        current_app.logger.info(f"Ukládám změny do JSON souboru: {json_path}")
+                    # Uložit všechny změny do JSONu
+                    if updated_count > 0:
                         with open(json_path, 'w', encoding='utf-8') as f:
                             json.dump(farm_data, f, ensure_ascii=False, indent=2)
-                        current_app.logger.info(f"JSON soubor úspěšně aktualizován")
-                    except Exception as e:
-                        current_app.logger.error(f"Chyba při ukládání JSON: {str(e)}")
-                        raise ValueError(f"Chyba při ukládání JSON: {str(e)}")
+                        current_app.logger.info(f"Aktualizováno {updated_count} URL v JSON souboru")
                     
                     current_app.logger.info(f"=== KONEC UKLÁDÁNÍ OBRÁZKU ===")
                     return image_url
