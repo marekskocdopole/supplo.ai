@@ -302,20 +302,24 @@ def regenerate_product_content(sku):
         return jsonify({'error': 'Interní chyba serveru'}), 500
 
 @products_bp.route('/api/farms/<farm_id>/export', methods=['GET'])
-@login_required
 def export_farm_data(farm_id):
     try:
-        # Kontrola přístupu k farmě
-        farm = Farm.query.filter_by(farm_id=farm_id).first_or_404()
+        # Načtení JSON souboru
+        json_path = os.path.join(current_app.root_path, 'data', 'farms', farm_id, f'{farm_id}.json')
+        with open(json_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
         
-        if farm.user_id != current_user.id:
-            return jsonify({'error': 'Nemáte přístup k této farmě'}), 403
-            
-        # Použití ProductManager pro export dat - použijeme farm_id místo farm.id
-        products = product_manager.export_products_csv(farm_id)
+        # Získání pouze potvrzených produktů
+        products = [p for p in data['products'] if p.get('is_confirmed', False)]
         
         if not products:
-            return jsonify({'error': 'Žádné produkty k exportu'}), 400
+            return jsonify({'error': 'Žádné potvrzené produkty k exportu'}), 400
+        
+        # Doplnění celých URL k obrázkům
+        for product in products:
+            if 'mirakl_image_1' in product and product['mirakl_image_1']:
+                if not product['mirakl_image_1'].startswith('http'):
+                    product['mirakl_image_1'] = f"http://161.35.70.99/products/{farm_id}_images/{product['Shop SKU']}.jpg"
         
         # Vytvoření DataFrame
         df = pd.DataFrame(products)
