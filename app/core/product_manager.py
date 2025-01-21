@@ -109,23 +109,20 @@ class ProductManager:
                     image_path = os.path.join(images_dir, filename)
                     image_file.save(image_path)
                     
-                    # Vždy použijeme produkční URL pro ukládání do JSONu
-                    server_url = "http://161.35.70.99/products"
-                    image_url = f"{server_url}/{farm_id}_images/{filename}"
+                    # Kompletní URL pro obrázek
+                    image_url = f"http://161.35.70.99/products/{farm_id}_images/{filename}"
                     
                     # Uložení KOMPLETNÍ URL do JSONu
                     product['mirakl_image_1'] = image_url
-                    product['image_path'] = image_url  # Ukládáme stejnou URL i do image_path
+                    product['image_path'] = image_url
                     
                     # Uložení změn do JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
                         json.dump(farm_data, f, ensure_ascii=False, indent=2)
                     
-                    # Pro lokální prostředí vrátíme lokální URL pro zobrazení v prohlížeči
+                    # Pro lokální prostředí vrátíme lokální URL pro zobrazení
                     if os.environ.get('FLASK_ENV') == 'development':
                         return f"http://127.0.0.1:5001/products/{farm_id}_images/{filename}"
-                    
-                    # V produkci vrátíme stejnou URL jako je v JSONu
                     return image_url
             
             raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")

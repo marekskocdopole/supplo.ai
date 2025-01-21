@@ -179,6 +179,9 @@ def confirm_product():
                 product['Description'] = long_description
                 # Zachováme kompletní URL obrázku
                 if image_path:
+                    # Pokud URL není kompletní, přidáme doménu
+                    if not image_path.startswith('http'):
+                        image_path = f"http://161.35.70.99/products/{image_path}"
                     product['mirakl_image_1'] = image_path
                     product['image_path'] = image_path
                 product['is_confirmed'] = True
