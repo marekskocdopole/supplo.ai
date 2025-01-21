@@ -302,6 +302,7 @@ def regenerate_product_content(sku):
         return jsonify({'error': 'Interní chyba serveru'}), 500
 
 @products_bp.route('/api/farms/<farm_id>/export', methods=['GET'])
+@login_required
 def export_farm_data(farm_id):
     try:
         # Kontrola přístupu k farmě
@@ -310,8 +311,8 @@ def export_farm_data(farm_id):
         if farm.user_id != current_user.id:
             return jsonify({'error': 'Nemáte přístup k této farmě'}), 403
             
-        # Použití ProductManager pro export dat
-        products = product_manager.export_products_csv(farm.id)
+        # Použití ProductManager pro export dat - použijeme farm_id místo farm.id
+        products = product_manager.export_products_csv(farm_id)
         
         if not products:
             return jsonify({'error': 'Žádné produkty k exportu'}), 400
