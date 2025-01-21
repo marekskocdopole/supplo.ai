@@ -143,7 +143,7 @@ class TextGenerator:
     
     def _generate_with_gpt4(self, prompt: str, max_tokens: int) -> str:
         response = self.client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {
                     "role": "system", 

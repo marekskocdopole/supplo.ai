@@ -89,11 +89,9 @@ class ProductManager:
         """Uloží obrázek produktu a vrátí kompletní URL"""
         try:
             print(f"DEBUG: Začátek ukládání obrázku pro farmu {farm_id}, SKU {sku}")
-            print(f"DEBUG: Aktuální cesta: {os.path.abspath(__file__)}")
             
             # Načtení JSON souboru
             json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
-            print(f"DEBUG: Cesta k JSON: {json_path}")
             
             if not os.path.exists(json_path):
                 print(f"DEBUG: JSON soubor neexistuje: {json_path}")
@@ -114,14 +112,13 @@ class ProductManager:
                     os.makedirs(images_dir, exist_ok=True)
                     print(f"DEBUG: Vytvořen adresář pro obrázky: {images_dir}")
                     
+                    # Uložení obrázku
+                    filename = f"{sku}.jpg"
+                    image_path = os.path.join(images_dir, filename)
+                    
                     # Kontrola typu souboru
                     if not image_file.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
                         raise ValueError("Nepodporovaný formát souboru. Povolené formáty jsou: JPG, PNG, GIF")
-                    
-                    # Vytvoření názvu souboru
-                    filename = f"{sku}.jpg"
-                    image_path = os.path.join(images_dir, filename)
-                    print(f"DEBUG: Vytvořena cesta k souboru: {image_path}")
                     
                     # Uložení souboru
                     try:
@@ -131,26 +128,14 @@ class ProductManager:
                         print(f"DEBUG: Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
-                    # VŽDY použít produkční URL pro ukládání do JSONu
+                    # Kompletní URL pro obrázek - vždy používáme produkční URL
                     base_url = "http://161.35.70.99"
-                    print(f"DEBUG: Použita produkční URL: {base_url}")
-                    
-                    # Vytvoření kompletní URL pro obrázek
                     image_url = f"{base_url}/products/{farm_id}_images/{filename}"
                     print(f"DEBUG: Vytvořena URL obrázku: {image_url}")
                     
-                    # Aktualizace všech polí v JSONu, která mohou obsahovat URL obrázku
+                    # Uložení KOMPLETNÍ URL do JSONu
                     product['mirakl_image_1'] = image_url
                     product['image_path'] = image_url
-                    
-                    # Projít všechny existující produkty a aktualizovat jejich URL
-                    for p in farm_data.get('products', []):
-                        # Kontrola mirakl_image_1
-                        if 'mirakl_image_1' in p and p['mirakl_image_1'] and not p['mirakl_image_1'].startswith('http'):
-                            p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                        # Kontrola image_path
-                        if 'image_path' in p and p['image_path'] and not p['image_path'].startswith('http'):
-                            p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
                     
                     # Uložení změn do JSONu
                     try:
