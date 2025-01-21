@@ -158,9 +158,13 @@ class ProductManager:
                     current_app.logger.info(f"image_path: {product['image_path']}")
                     
                     # Uložit aktualizovaná data zpět do JSON souboru
-                    with open(json_path, 'w', encoding='utf-8') as f:
-                        json.dump(farm_data, f, ensure_ascii=False, indent=2)
-                    current_app.logger.info(f"Aktualizovaná data byla uložena do JSON souboru: {json_path}")
+                    try:
+                        with open(json_path, 'w', encoding='utf-8') as f:
+                            json.dump(farm_data, f, ensure_ascii=False, indent=2)
+                        current_app.logger.info(f"Aktualizovaná data byla uložena do JSON souboru: {json_path}")
+                    except Exception as e:
+                        current_app.logger.error(f"Chyba při ukládání do JSON: {str(e)}")
+                        raise ValueError(f"Chyba při ukládání do JSON: {str(e)}")
                     
                     # Projít všechny existující produkty a aktualizovat jejich URL
                     updated_count = 0
@@ -192,9 +196,13 @@ class ProductManager:
                     
                     # Uložit všechny změny do JSONu
                     if updated_count > 0:
-                        with open(json_path, 'w', encoding='utf-8') as f:
-                            json.dump(farm_data, f, ensure_ascii=False, indent=2)
-                        current_app.logger.info(f"Aktualizováno {updated_count} URL v JSON souboru")
+                        try:
+                            with open(json_path, 'w', encoding='utf-8') as f:
+                                json.dump(farm_data, f, ensure_ascii=False, indent=2)
+                            current_app.logger.info(f"Aktualizováno {updated_count} URL v JSON souboru")
+                        except Exception as e:
+                            current_app.logger.error(f"Chyba při ukládání do JSON: {str(e)}")
+                            raise ValueError(f"Chyba při ukládání do JSON: {str(e)}")
                     
                     current_app.logger.info(f"=== KONEC UKLÁDÁNÍ OBRÁZKU ===")
                     return image_url
