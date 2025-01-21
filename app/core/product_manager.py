@@ -88,72 +88,49 @@ class ProductManager:
     def save_product_image(self, farm_id: str, sku: str, image_file) -> Optional[str]:
         """Uloží obrázek produktu a vrátí kompletní URL"""
         try:
-            print(f"DEBUG: Začátek ukládání obrázku pro farmu {farm_id}, SKU {sku}")
-            
             # Načtení JSON souboru
             json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
             
             if not os.path.exists(json_path):
-                print(f"DEBUG: JSON soubor neexistuje: {json_path}")
                 raise ValueError(f"JSON soubor pro farmu {farm_id} neexistuje")
             
             with open(json_path, 'r', encoding='utf-8') as f:
                 farm_data = json.load(f)
             
             # Najít produkt
-            product_found = False
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
-                    product_found = True
-                    print(f"DEBUG: Nalezen produkt {sku}")
-                    
                     # Vytvoření cesty pro obrázek
                     images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
-                    print(f"DEBUG: Vytvořen adresář pro obrázky: {images_dir}")
                     
                     # Uložení obrázku
                     filename = f"{sku}.jpg"
                     image_path = os.path.join(images_dir, filename)
+                    image_file.save(image_path)
                     
-                    # Kontrola typu souboru
-                    if not image_file.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
-                        raise ValueError("Nepodporovaný formát souboru. Povolené formáty jsou: JPG, PNG, GIF")
-                    
-                    # Uložení souboru
-                    try:
-                        image_file.save(image_path)
-                        print(f"DEBUG: Obrázek uložen do: {image_path}")
-                    except Exception as e:
-                        print(f"DEBUG: Chyba při ukládání souboru: {str(e)}")
-                        raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
-                    
-                    # Kompletní URL pro obrázek - vždy používáme produkční URL
-                    base_url = "http://161.35.70.99"
-                    image_url = f"{base_url}/products/{farm_id}_images/{filename}"
-                    print(f"DEBUG: Vytvořena URL obrázku: {image_url}")
+                    # Vždy použijeme produkční URL pro ukládání do JSONu
+                    server_url = "http://161.35.70.99/products"
+                    image_url = f"{server_url}/{farm_id}_images/{filename}"
                     
                     # Uložení KOMPLETNÍ URL do JSONu
                     product['mirakl_image_1'] = image_url
-                    product['image_path'] = image_url
+                    product['image_path'] = image_url  # Ukládáme stejnou URL i do image_path
                     
                     # Uložení změn do JSONu
-                    try:
-                        with open(json_path, 'w', encoding='utf-8') as f:
-                            json.dump(farm_data, f, ensure_ascii=False, indent=2)
-                        print(f"DEBUG: JSON soubor aktualizován s URL: {image_url}")
-                    except Exception as e:
-                        print(f"DEBUG: Chyba při ukládání JSON: {str(e)}")
-                        raise ValueError(f"Chyba při ukládání JSON: {str(e)}")
+                    with open(json_path, 'w', encoding='utf-8') as f:
+                        json.dump(farm_data, f, ensure_ascii=False, indent=2)
                     
+                    # Pro lokální prostředí vrátíme lokální URL pro zobrazení v prohlížeči
+                    if os.environ.get('FLASK_ENV') == 'development':
+                        return f"http://127.0.0.1:5001/products/{farm_id}_images/{filename}"
+                    
+                    # V produkci vrátíme stejnou URL jako je v JSONu
                     return image_url
             
-            if not product_found:
-                print(f"DEBUG: Produkt {sku} nebyl nalezen v JSON")
-                raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
+            raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
             
         except Exception as e:
-            print(f"DEBUG: Chyba při ukládání obrázku: {str(e)}")
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
         
         return None

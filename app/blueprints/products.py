@@ -177,7 +177,10 @@ def confirm_product():
             if product.get('Shop SKU') == sku:
                 product['Short Description'] = short_description
                 product['Description'] = long_description
-                product['mirakl_image_1'] = image_path
+                # Zachováme kompletní URL obrázku
+                if image_path:
+                    product['mirakl_image_1'] = image_path
+                    product['image_path'] = image_path
                 product['is_confirmed'] = True
                 break
                 
@@ -314,12 +317,6 @@ def export_farm_data(farm_id):
         
         if not products:
             return jsonify({'error': 'Žádné potvrzené produkty k exportu'}), 400
-        
-        # Doplnění celých URL k obrázkům
-        for product in products:
-            if 'mirakl_image_1' in product and product['mirakl_image_1']:
-                if not product['mirakl_image_1'].startswith('http'):
-                    product['mirakl_image_1'] = f"http://161.35.70.99/products/{farm_id}_images/{product['Shop SKU']}.jpg"
         
         # Vytvoření DataFrame
         df = pd.DataFrame(products)
