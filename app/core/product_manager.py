@@ -6,6 +6,7 @@ from app import db
 from app.core.models import Product, Farm
 from app.config.config import Config
 from app.generators.text_generator import TextGenerator, GenerationError
+from flask import current_app
 
 class ProductManager:
     def __init__(self):
@@ -88,44 +89,59 @@ class ProductManager:
     def save_product_image(self, farm_id: str, sku: str, image_file) -> Optional[str]:
         """Uloží obrázek produktu a vrátí kompletní URL"""
         try:
+            current_app.logger.info(f"Začátek ukládání obrázku pro farmu {farm_id}, SKU {sku}")
+            
             # Načtení JSON souboru
             json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            current_app.logger.info(f"Cesta k JSON souboru: {json_path}")
             
             if not os.path.exists(json_path):
+                current_app.logger.error(f"JSON soubor pro farmu {farm_id} neexistuje")
                 raise ValueError(f"JSON soubor pro farmu {farm_id} neexistuje")
             
             with open(json_path, 'r', encoding='utf-8') as f:
                 farm_data = json.load(f)
+                current_app.logger.info("JSON soubor úspěšně načten")
             
             # Najít produkt
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
+                    current_app.logger.info(f"Nalezen produkt s SKU {sku}")
+                    
                     # Vytvoření cesty pro obrázek
                     images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
+                    current_app.logger.info(f"Adresář pro obrázky: {images_dir}")
                     
                     # Uložení obrázku
                     filename = f"{sku}.jpg"
                     image_path = os.path.join(images_dir, filename)
                     image_file.save(image_path)
+                    current_app.logger.info(f"Obrázek uložen do: {image_path}")
                     
-                    # VŽDY použijeme produkční URL pro JSON
-                    complete_url = f"http://161.35.70.99/products/{farm_id}_images/{filename}"
+                    # Vždy použijeme produkční URL pro ukládání do JSONu
+                    server_url = "http://161.35.70.99/products"
+                    image_url = f"{server_url}/{farm_id}_images/{filename}"
+                    current_app.logger.info(f"Vytvořena URL obrázku: {image_url}")
                     
                     # Uložení KOMPLETNÍ URL do JSONu
-                    product['mirakl_image_1'] = complete_url
-                    product['image_path'] = complete_url
+                    old_url = product.get('mirakl_image_1', '')
+                    product['mirakl_image_1'] = image_url
+                    product['image_path'] = image_url  # Ukládáme stejnou URL i do image_path
+                    current_app.logger.info(f"Stará URL: {old_url}")
+                    current_app.logger.info(f"Nová URL uložena do JSONu: {image_url}")
                     
                     # Uložení změn do JSONu
                     with open(json_path, 'w', encoding='utf-8') as f:
                         json.dump(farm_data, f, ensure_ascii=False, indent=2)
+                    current_app.logger.info("Změny úspěšně uloženy do JSONu")
                     
-                    # Pro lokální prostředí vrátíme lokální URL pro zobrazení v UI
+                    # Pro lokální prostředí vrátíme lokální URL pro zobrazení v prohlížeči
                     if os.environ.get('FLASK_ENV') == 'development':
                         return f"http://127.0.0.1:5001/products/{farm_id}_images/{filename}"
-                        
-                    # V produkci vrátíme produkční URL
-                    return complete_url
+                    
+                    # V produkci vrátíme stejnou URL jako je v JSONu
+                    return image_url
             
             raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
             
