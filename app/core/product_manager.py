@@ -88,131 +88,87 @@ class ProductManager:
     def save_product_image(self, farm_id: str, sku: str, image_file) -> Optional[str]:
         """Uloží obrázek produktu a vrátí kompletní URL"""
         try:
-            from flask import current_app
-            current_app.logger.info(f"=== ZAČÁTEK UKLÁDÁNÍ OBRÁZKU ===")
-            current_app.logger.info(f"Farm ID: {farm_id}, SKU: {sku}")
+            print(f"DEBUG: Začátek ukládání obrázku pro farmu {farm_id}, SKU {sku}")
+            print(f"DEBUG: Aktuální cesta: {os.path.abspath(__file__)}")
             
-            # Načtení JSON souboru - použijeme absolutní cestu z app.root_path
-            json_path = os.path.join(current_app.root_path, 'data', 'farms', farm_id, f'{farm_id}.json')
-            current_app.logger.info(f"Cesta k JSON: {json_path}")
+            # Načtení JSON souboru
+            json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}.json')
+            print(f"DEBUG: Cesta k JSON: {json_path}")
             
             if not os.path.exists(json_path):
-                current_app.logger.error(f"JSON soubor neexistuje: {json_path}")
+                print(f"DEBUG: JSON soubor neexistuje: {json_path}")
                 raise ValueError(f"JSON soubor pro farmu {farm_id} neexistuje")
             
             with open(json_path, 'r', encoding='utf-8') as f:
                 farm_data = json.load(f)
-                current_app.logger.info(f"JSON soubor úspěšně načten")
             
             # Najít produkt
             product_found = False
             for product in farm_data.get('products', []):
                 if product.get('Shop SKU') == sku:
                     product_found = True
-                    current_app.logger.info(f"Nalezen produkt {sku}")
+                    print(f"DEBUG: Nalezen produkt {sku}")
                     
-                    # Vytvoření cesty pro obrázek - použijeme absolutní cestu z app.root_path
-                    images_dir = os.path.join(current_app.root_path, 'data', 'farms', farm_id, f'{farm_id}_images')
+                    # Vytvoření cesty pro obrázek
+                    images_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'farms', farm_id, f'{farm_id}_images')
                     os.makedirs(images_dir, exist_ok=True)
-                    current_app.logger.info(f"Vytvořen adresář pro obrázky: {images_dir}")
-                    
-                    # Uložení obrázku
-                    filename = f"{sku}.jpg"
-                    image_path = os.path.join(images_dir, filename)
-                    current_app.logger.info(f"Cesta pro uložení obrázku: {image_path}")
+                    print(f"DEBUG: Vytvořen adresář pro obrázky: {images_dir}")
                     
                     # Kontrola typu souboru
                     if not image_file.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
-                        current_app.logger.error(f"Nepodporovaný formát souboru: {image_file.filename}")
                         raise ValueError("Nepodporovaný formát souboru. Povolené formáty jsou: JPG, PNG, GIF")
+                    
+                    # Vytvoření názvu souboru
+                    filename = f"{sku}.jpg"
+                    image_path = os.path.join(images_dir, filename)
+                    print(f"DEBUG: Vytvořena cesta k souboru: {image_path}")
                     
                     # Uložení souboru
                     try:
                         image_file.save(image_path)
-                        current_app.logger.info(f"Obrázek úspěšně uložen do: {image_path}")
+                        print(f"DEBUG: Obrázek uložen do: {image_path}")
                     except Exception as e:
-                        current_app.logger.error(f"Chyba při ukládání souboru: {str(e)}")
+                        print(f"DEBUG: Chyba při ukládání souboru: {str(e)}")
                         raise ValueError(f"Chyba při ukládání souboru: {str(e)}")
                     
                     # VŽDY použít produkční URL pro ukládání do JSONu
                     base_url = "http://161.35.70.99"
-                    current_app.logger.info(f"Použita produkční URL: {base_url}")
+                    print(f"DEBUG: Použita produkční URL: {base_url}")
                     
                     # Vytvoření kompletní URL pro obrázek
                     image_url = f"{base_url}/products/{farm_id}_images/{filename}"
-                    current_app.logger.info(f"Vytvořena URL obrázku: {image_url}")
-                    
-                    # Debug výpis před aktualizací
-                    current_app.logger.info(f"Původní hodnoty v JSONu:")
-                    current_app.logger.info(f"mirakl_image_1: {product.get('mirakl_image_1')}")
-                    current_app.logger.info(f"image_path: {product.get('image_path')}")
+                    print(f"DEBUG: Vytvořena URL obrázku: {image_url}")
                     
                     # Aktualizace všech polí v JSONu, která mohou obsahovat URL obrázku
                     product['mirakl_image_1'] = image_url
                     product['image_path'] = image_url
-                    current_app.logger.info(f"Aktualizovány URL v produktu {sku}")
                     
-                    # Debug výpis po aktualizaci
-                    current_app.logger.info(f"Nové hodnoty v JSONu:")
-                    current_app.logger.info(f"mirakl_image_1: {product['mirakl_image_1']}")
-                    current_app.logger.info(f"image_path: {product['image_path']}")
+                    # Projít všechny existující produkty a aktualizovat jejich URL
+                    for p in farm_data.get('products', []):
+                        # Kontrola mirakl_image_1
+                        if 'mirakl_image_1' in p and p['mirakl_image_1'] and not p['mirakl_image_1'].startswith('http'):
+                            p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
+                        # Kontrola image_path
+                        if 'image_path' in p and p['image_path'] and not p['image_path'].startswith('http'):
+                            p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
                     
-                    # Uložit aktualizovaná data zpět do JSON souboru
+                    # Uložení změn do JSONu
                     try:
                         with open(json_path, 'w', encoding='utf-8') as f:
                             json.dump(farm_data, f, ensure_ascii=False, indent=2)
-                        current_app.logger.info(f"Aktualizovaná data byla uložena do JSON souboru: {json_path}")
+                        print(f"DEBUG: JSON soubor aktualizován s URL: {image_url}")
                     except Exception as e:
-                        current_app.logger.error(f"Chyba při ukládání do JSON: {str(e)}")
-                        raise ValueError(f"Chyba při ukládání do JSON: {str(e)}")
+                        print(f"DEBUG: Chyba při ukládání JSON: {str(e)}")
+                        raise ValueError(f"Chyba při ukládání JSON: {str(e)}")
                     
-                    # Projít všechny existující produkty a aktualizovat jejich URL
-                    updated_count = 0
-                    for p in farm_data.get('products', []):
-                        # Debug výpis pro každý produkt
-                        current_app.logger.info(f"Kontrola produktu {p.get('Shop SKU')}:")
-                        current_app.logger.info(f"Původní mirakl_image_1: {p.get('mirakl_image_1')}")
-                        current_app.logger.info(f"Původní image_path: {p.get('image_path')}")
-                        
-                        # Kontrola a aktualizace URL pro všechny produkty
-                        if 'mirakl_image_1' in p and p['mirakl_image_1']:
-                            if not p['mirakl_image_1'].startswith('http'):
-                                p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                                updated_count += 1
-                            elif 'localhost' in p['mirakl_image_1'] or '127.0.0.1' in p['mirakl_image_1']:
-                                p['mirakl_image_1'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                                updated_count += 1
-                        
-                        if 'image_path' in p and p['image_path']:
-                            if not p['image_path'].startswith('http'):
-                                p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                                updated_count += 1
-                            elif 'localhost' in p['image_path'] or '127.0.0.1' in p['image_path']:
-                                p['image_path'] = f"{base_url}/products/{farm_id}_images/{p['Shop SKU']}.jpg"
-                                updated_count += 1
-                            
-                        current_app.logger.info(f"Nové mirakl_image_1: {p.get('mirakl_image_1')}")
-                        current_app.logger.info(f"Nové image_path: {p.get('image_path')}")
-                    
-                    # Uložit všechny změny do JSONu
-                    if updated_count > 0:
-                        try:
-                            with open(json_path, 'w', encoding='utf-8') as f:
-                                json.dump(farm_data, f, ensure_ascii=False, indent=2)
-                            current_app.logger.info(f"Aktualizováno {updated_count} URL v JSON souboru")
-                        except Exception as e:
-                            current_app.logger.error(f"Chyba při ukládání do JSON: {str(e)}")
-                            raise ValueError(f"Chyba při ukládání do JSON: {str(e)}")
-                    
-                    current_app.logger.info(f"=== KONEC UKLÁDÁNÍ OBRÁZKU ===")
                     return image_url
             
             if not product_found:
-                current_app.logger.error(f"Produkt {sku} nebyl nalezen v JSON")
+                print(f"DEBUG: Produkt {sku} nebyl nalezen v JSON")
                 raise ValueError(f"Produkt {sku} nebyl nalezen v JSON souboru")
             
         except Exception as e:
-            current_app.logger.error(f"Chyba při ukládání obrázku: {str(e)}")
+            print(f"DEBUG: Chyba při ukládání obrázku: {str(e)}")
             raise ValueError(f"Chyba při ukládání obrázku: {str(e)}")
         
         return None
